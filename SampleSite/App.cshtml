@@ -1,5 +1,64 @@
-﻿<!--
-    Configuring this here is temporary. Later we'll move the app config
-    into Program.cs, and it won't be necessary to specify AppAssembly.
--->
-<Router AppAssembly=typeof(Program).Assembly />
+﻿@using Toolbelt.Blazor.Gamepad
+@inject GamepadList GamePadList
+
+<p>@DateTime.Now</p>
+
+<p>Game Pad List (@Gamepads.Count())</p>
+<ul>
+    @foreach (var gamePad in Gamepads)
+    {
+        <li>@gamePad.Index - [@gamePad.Id]</li>
+    }
+</ul>
+
+@if (this.Gamepad != null)
+{
+    <p>Axes</p>
+    <ul>
+        @foreach (var ax in Gamepad.Axes)
+        {
+            <li>@ax.ToString("#,0.0")</li>
+        }
+    </ul>
+
+    <p>Buttons</p>
+    <ul>
+        @foreach (var button in Gamepad.Buttons)
+        {
+            <li>@button.Pressed (@button.Value)</li>
+        }
+    </ul>
+}
+
+@functions {
+
+IEnumerable<Gamepad> Gamepads = new Gamepad[0];
+
+Gamepad Gamepad;
+
+
+protected override void OnInit()
+{
+    WatchLoop();
+}
+
+async Task WatchLoop()
+{
+    try
+    {
+        await Task.Delay(200);
+
+        this.Gamepads = await GamePadList.GetGamepadsAsync();
+        this.Gamepad = this.Gamepads.FirstOrDefault();
+
+        this.StateHasChanged();
+        WatchLoop();
+
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.ToString());
+        throw;
+    }
+}
+}
