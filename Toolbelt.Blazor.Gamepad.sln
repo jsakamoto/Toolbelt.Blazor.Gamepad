@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleSite", "SampleSite\SampleSite.csproj", "{1696E5DD-3160-49D9-8E35-9368E094AC0C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toolbelt.Blazor.Gamepad", "Toolbelt.Blazor.Gamepad\Toolbelt.Blazor.Gamepad.csproj", "{08325354-D515-4D91-A2F2-7A353B8CF516}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "README", "README", "{C6C622E0-163D-45B0-BA4A-100542A05CD9}"
@@ -12,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "README", "README", "{C6C622
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerSideBlazorSampleSite.Server", "ServerSideBlazorSampleSite\ServerSideBlazorSampleSite.Server\ServerSideBlazorSampleSite.Server.csproj", "{42B0AD4E-F9A5-4952-9B5E-ABDC5770727E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerSideBlazorSampleSite.Server", "SampleSites\ServerSideBlazorSampleSite\ServerSideBlazorSampleSite.Server\ServerSideBlazorSampleSite.Server.csproj", "{42B0AD4E-F9A5-4952-9B5E-ABDC5770727E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerSideBlazorSampleSite.App", "ServerSideBlazorSampleSite\ServerSideBlazorSampleSite.App\ServerSideBlazorSampleSite.App.csproj", "{8DB7FCC0-6B14-443D-9DFD-1C0088ABF1EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerSideBlazorSampleSite.App", "SampleSites\ServerSideBlazorSampleSite\ServerSideBlazorSampleSite.App\ServerSideBlazorSampleSite.App.csproj", "{8DB7FCC0-6B14-443D-9DFD-1C0088ABF1EB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServerSideBlazor", "ServerSideBlazor", "{72E86430-7588-4DB5-A258-33D77B3F3621}"
 EndProject
@@ -22,16 +20,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleSites", "SampleSites"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientSideBlazor", "ClientSideBlazor", "{92203C84-D750-4D5B-902A-A4782207EC65}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientSideBlazorSampleSite", "SampleSites\ClientSideBlazorSampleSite\ClientSideBlazorSampleSite.csproj", "{5726F411-D4B7-448B-8672-7EF2B1062302}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1696E5DD-3160-49D9-8E35-9368E094AC0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1696E5DD-3160-49D9-8E35-9368E094AC0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1696E5DD-3160-49D9-8E35-9368E094AC0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1696E5DD-3160-49D9-8E35-9368E094AC0C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{08325354-D515-4D91-A2F2-7A353B8CF516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08325354-D515-4D91-A2F2-7A353B8CF516}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08325354-D515-4D91-A2F2-7A353B8CF516}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -44,16 +40,20 @@ Global
 		{8DB7FCC0-6B14-443D-9DFD-1C0088ABF1EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DB7FCC0-6B14-443D-9DFD-1C0088ABF1EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DB7FCC0-6B14-443D-9DFD-1C0088ABF1EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5726F411-D4B7-448B-8672-7EF2B1062302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5726F411-D4B7-448B-8672-7EF2B1062302}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5726F411-D4B7-448B-8672-7EF2B1062302}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5726F411-D4B7-448B-8672-7EF2B1062302}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{1696E5DD-3160-49D9-8E35-9368E094AC0C} = {92203C84-D750-4D5B-902A-A4782207EC65}
 		{42B0AD4E-F9A5-4952-9B5E-ABDC5770727E} = {72E86430-7588-4DB5-A258-33D77B3F3621}
 		{8DB7FCC0-6B14-443D-9DFD-1C0088ABF1EB} = {72E86430-7588-4DB5-A258-33D77B3F3621}
 		{72E86430-7588-4DB5-A258-33D77B3F3621} = {2F68DF90-123D-4252-AA47-0AD9CA7E247F}
 		{92203C84-D750-4D5B-902A-A4782207EC65} = {2F68DF90-123D-4252-AA47-0AD9CA7E247F}
+		{5726F411-D4B7-448B-8672-7EF2B1062302} = {92203C84-D750-4D5B-902A-A4782207EC65}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62E30C2E-4DE2-4F3F-8344-05ACD9C5C6C2}

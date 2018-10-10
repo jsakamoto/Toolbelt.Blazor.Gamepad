@@ -1,7 +1,8 @@
-﻿@using Toolbelt.Blazor.Gamepad
+﻿@page "/"
+@using Toolbelt.Blazor.Gamepad
 @inject GamepadList GamePadList
 
-<p>@DateTime.Now</p>
+<p>@DateTime.Now | <NavLink href="about">About</NavLink></p>
 
 <p>Game Pad List (@Gamepads.Count())</p>
 <ul>
