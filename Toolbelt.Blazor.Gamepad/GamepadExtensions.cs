@@ -14,7 +14,7 @@ namespace Toolbelt.Blazor.Extensions.DependencyInjection
         /// <param name="services">The Microsoft.Extensions.DependencyInjection.IServiceCollection to add the service to.</param>
         public static IServiceCollection AddGamepadList(this IServiceCollection services)
         {
-            services.AddSingleton(_ => new GamepadList());
+            services.AddScoped(_ => new GamepadList());
             return services;
         }
     }
