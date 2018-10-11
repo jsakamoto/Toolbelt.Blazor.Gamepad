@@ -50,19 +50,21 @@ Sample .cshtml code is here:
 ```csharp
 @page "/"
 @using Toolbelt.Blazor.Gamepad
+@using System.Timers
+@implements IDisposable
 @inject GamepadList GamePadList
 
 @if (this.Gamepad != null) {
   <p>Axes</p>
   <ul>
-    @foreach (var ax in Axes) {
+    @foreach (var ax in this.Gamepad.Axes) {
       <li>@ax.ToString("#,0.0")</li>
     }
   </ul>
 
   <p>Buttons</p>
   <ul>
-    @foreach (var button in Buttons) {
+    @foreach (var button in this.Gamepad.Buttons) {
       <li>@button.Pressed (@button.Value)</li>
     }
   </ul>
@@ -72,18 +74,21 @@ Sample .cshtml code is here:
 
   Gamepad Gamepad;
 
+  Timer Timer = new Timer(200) { Enabled = true };
+
   protected override void OnInit() {
-    WatchLoop();
+    Timer.Elapsed += Timer_Elapsed;
   }
 
-  async Task WatchLoop() {
-    await Task.Delay(200);
-
+  async void Timer_Elapsed(object sender, EventArgs args) {
     var gamepads = await GamePadList.GetGamepadsAsync();
     this.Gamepad = gamepads.FirstOrDefault();
-
     this.StateHasChanged();
-    WatchLoop();
+  }
+
+  public void Dispose() {
+    Timer.Elapsed -= Timer_Elapsed;
+    Timer.Dispose();
   }
 }
 ```

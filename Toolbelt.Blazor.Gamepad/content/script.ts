@@ -1,29 +1,19 @@
-﻿declare var DotNet: any;
+﻿namespace Toolbelt.Blazor.Gamepad {
 
-namespace Toolbelt.Blazor.Gamepad {
-
-    let _gamepadListWrappers: any[] = [];
-
-    export function attach(gamepadListWrapper: any): void {
-        _gamepadListWrappers.push(gamepadListWrapper);
-    }
-
-    export function getGamepads(): { id: string, index: number }[] {
+    export function getGamepads(): string[][] {
         return Array.from(navigator.getGamepads())
             .filter(g => g != null)
-            .map(g => ({ id: g.id, index: g.index }));
+            .map(g => [g.id, g.index.toString()]);
     }
 
-    export function refresh(id: string, index: number): void {
-        const gamepad = Array.from(navigator.getGamepads())
-            .filter(g => g != null)
-            .filter(g => g.id == id && g.index == index)
-            .pop();
-        const args = (typeof gamepad != "undefined") ? {
-            connected: gamepad.connected,
-            axes: gamepad.axes,
-            buttons: gamepad.buttons.map(btn => ({ _pressed: btn.pressed, _value: btn.value }))
-        } : { connected: false, axes: [], buttons: [] };
-        _gamepadListWrappers.forEach(wrapper => wrapper.invokeMethodAsync("UpdateGamepad", id, index, args.connected, args.axes, args.buttons));
+    export function refresh(gamepadObjRef: any, id: string, index: number): null {
+        for (var gamepad of navigator.getGamepads()) {
+            if (gamepad != null && gamepad.id == id && gamepad.index == index) {
+                gamepadObjRef.invokeMethodAsync("UpdateStatus", gamepad.connected, gamepad.axes, gamepad.buttons.map(b => b.pressed), gamepad.buttons.map(b => b.value));
+                return null;
+            }
+        }
+        gamepadObjRef.invokeMethodAsync("UpdateStatus", false, [], [], []);
+        return null;
     }
 }

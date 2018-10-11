@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
@@ -12,12 +13,12 @@ namespace Toolbelt.Blazor.Gamepad
         /// <summary>
         /// A string containing identifying information about the controller.
         /// </summary>
-        public string Id { get; internal set; }
+        public string Id { get; }
 
         /// <summary>
         /// An integer that is auto-incremented to be unique for each device currently connected to the system.
         /// </summary>
-        public int Index { get; internal set; }
+        public int Index { get; }
 
         internal bool _Connected;
 
@@ -33,7 +34,7 @@ namespace Toolbelt.Blazor.Gamepad
         /// </summary>
         public IReadOnlyList<double> Axes => this.Refresh()._Axes;
 
-        private GamepadButton[] _Buttons = new GamepadButton[0];
+        private List<GamepadButton> _Buttons = new List<GamepadButton>();
 
         /// <summary>
         /// A list of GamepadButton objects representing the buttons present on the device.
@@ -42,20 +43,52 @@ namespace Toolbelt.Blazor.Gamepad
 
         private Task LastRefreshTask = null;
 
+        private DotNetObjectRef _ObjectRefOfThis;
+
+        internal Gamepad(string id, int index, bool connected)
+        {
+            Id = id;
+            Index = index;
+            _Connected = connected;
+        }
+
         private Gamepad Refresh()
         {
             if ((LastRefreshTask?.IsCompleted ?? true) == true)
             {
-                LastRefreshTask = JSRuntime.Current.InvokeAsync<Gamepad[]>("Toolbelt.Blazor.Gamepad.refresh", this.Id, this.Index);
+                LastRefreshTask?.Dispose();
+                if (_ObjectRefOfThis == null) _ObjectRefOfThis = new DotNetObjectRef(this);
+                LastRefreshTask = JSRuntime.Current.InvokeAsync<object>("Toolbelt.Blazor.Gamepad.refresh", _ObjectRefOfThis, this.Id, this.Index);
             }
             return this;
         }
 
-        internal void UpdateStatus(bool connected, double[] axes, GamepadButton[] buttons)
+        [JSInvokable(nameof(UpdateStatus)), EditorBrowsable(EditorBrowsableState.Never)]
+        public void UpdateStatus(bool connected, double[] axes, bool[] buttonsPressed, double[] buttonsValue)
         {
             _Connected = connected;
             _Axes = axes;
-            _Buttons = buttons;
+
+            var buttonsCount = _Buttons.Count;
+            for (var i = 0; i < buttonsPressed.Length; i++)
+            {
+                var button = default(GamepadButton);
+                if (i < buttonsCount)
+                {
+                    button = _Buttons[i];
+                }
+                else
+                {
+                    button = new GamepadButton();
+                    _Buttons.Add(button);
+                }
+                button.Pressed = buttonsPressed[i];
+                button.Value = buttonsValue[i];
+            }
+            if (buttonsPressed.Length < buttonsCount)
+            {
+                _Buttons.RemoveRange(buttonsPressed.Length, buttonsCount - buttonsPressed.Length);
+            }
         }
     }
 }

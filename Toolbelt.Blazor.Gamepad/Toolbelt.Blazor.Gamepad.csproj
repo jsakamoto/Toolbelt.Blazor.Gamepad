@@ -32,11 +32,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Properties\launchSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Remove="content\script.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="content\script.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Properties\launchSettings.json" />
   </ItemGroup>
 
   <ItemGroup>

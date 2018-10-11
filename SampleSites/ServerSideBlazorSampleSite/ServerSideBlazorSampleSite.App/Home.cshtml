@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Toolbelt.Blazor.Gamepad
 @inject GamepadList GamePadList
+@implements IDisposable
 
 <p>@DateTime.Now | <NavLink href="about">About</NavLink></p>
 
@@ -37,29 +38,30 @@ IEnumerable<Gamepad> Gamepads = new Gamepad[0];
 
 Gamepad Gamepad;
 
+System.Timers.Timer Timer = new System.Timers.Timer(200) { Enabled = true };
 
 protected override void OnInit()
 {
-    WatchLoop();
+    Timer.Elapsed += Timer_Elapsed;
 }
 
-async Task WatchLoop()
+private async void Timer_Elapsed(object sender, EventArgs args)
 {
     try
     {
-        await Task.Delay(200);
-
         this.Gamepads = await GamePadList.GetGamepadsAsync();
         this.Gamepad = this.Gamepads.FirstOrDefault();
-
         this.StateHasChanged();
-        WatchLoop();
-
     }
     catch (Exception e)
     {
-        Console.WriteLine(e.ToString());
+        System.Diagnostics.Debug.WriteLine(e.ToString());
         throw;
     }
+}
+
+public void Dispose()
+{
+    Timer?.Dispose();
 }
 }
