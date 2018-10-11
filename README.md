@@ -2,7 +2,11 @@
 
 ## Summary
 
+This is a class library that provides gamepad API access for your Blazor apps.
 
+## Requirements
+
+[Blazor](https://blazor.net/) v.0.6.0, or above.
 
 ## How to install and use?
 

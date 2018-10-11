@@ -7,6 +7,21 @@
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
     <LangVersion>7.3</LangVersion>
     <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
+    <Copyright>Copyright © 2018 J.Sakamoto, Mozilla Public License 2.0</Copyright>
+    <Authors>J.Sakamoto</Authors>
+    <Version>1.0.0.0</Version>
+    <PackageLicenseUrl>https://github.com/jsakamoto/Toolbelt.Blazor.Gamepad/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/jsakamoto/Toolbelt.Blazor.Gamepad/</PackageProjectUrl>
+    <Description>gamepad API access for your Blazor apps.</Description>
+    <PackageTags>blazor,gamepad</PackageTags>
+    <PackageReleaseNotes>
+      v.1.0.0
+      - 1st release.
+    </PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,7 +48,7 @@
     <TypeScriptCompile Include="content\script.ts" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+  <PropertyGroup>
     <TypeScriptTarget>ES2015</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptModuleKind>None</TypeScriptModuleKind>

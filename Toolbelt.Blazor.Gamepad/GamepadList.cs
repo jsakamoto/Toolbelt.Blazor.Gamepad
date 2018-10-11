@@ -8,6 +8,9 @@ using Microsoft.JSInterop;
 
 namespace Toolbelt.Blazor.Gamepad
 {
+    /// <summary>
+    /// Provides gamepad API access.
+    /// </summary>
     public class GamepadList
     {
         private bool _Attached = false;
@@ -31,6 +34,9 @@ namespace Toolbelt.Blazor.Gamepad
             _Attached = true;
         }
 
+        /// <summary>
+        /// Get the list of activated gamepad objects.
+        /// </summary>
         public async Task<IReadOnlyList<Gamepad>> GetGamepadsAsync()
         {
             await AttachAsync();
@@ -40,8 +46,8 @@ namespace Toolbelt.Blazor.Gamepad
             var toRemovePads = _Gamepads.Where(p1 => !latestGamePads.Any(p2 => p1.Id == p2.Id && p1.Index == p2.Index)).ToArray();
 
             _Gamepads.AddRange(toAddPads);
-            foreach (var pad in _Gamepads) pad.Connected = true;
-            foreach (var pad in toRemovePads) pad.Connected = false;// _GamePads.Remove(pad);
+            foreach (var pad in _Gamepads) pad._Connected = true;
+            foreach (var pad in toRemovePads) pad._Connected = false;// _GamePads.Remove(pad);
 
             return _Gamepads;
         }

@@ -4,20 +4,40 @@ using Microsoft.JSInterop;
 
 namespace Toolbelt.Blazor.Gamepad
 {
+    /// <summary>
+    /// An individual gamepad or other controller device.
+    /// </summary>
     public class Gamepad
     {
-        public string Id { get; set; }
+        /// <summary>
+        /// A string containing identifying information about the controller.
+        /// </summary>
+        public string Id { get; internal set; }
 
-        public int Index { get; set; }
+        /// <summary>
+        /// An integer that is auto-incremented to be unique for each device currently connected to the system.
+        /// </summary>
+        public int Index { get; internal set; }
 
-        public bool Connected { get; internal set; }
+        internal bool _Connected;
+
+        /// <summary>
+        /// A boolean indicating whether the gamepad is still connected to the system.
+        /// </summary>
+        public bool Connected => this.Refresh()._Connected;
 
         private double[] _Axes = new double[0];
 
+        /// <summary>
+        /// A list representing the controls with axes present on the device (e.g. analog thumb sticks).
+        /// </summary>
         public IReadOnlyList<double> Axes => this.Refresh()._Axes;
 
         private GamepadButton[] _Buttons = new GamepadButton[0];
 
+        /// <summary>
+        /// A list of GamepadButton objects representing the buttons present on the device.
+        /// </summary>
         public IReadOnlyList<GamepadButton> Buttons => this.Refresh()._Buttons;
 
         private Task LastRefreshTask = null;
@@ -33,7 +53,7 @@ namespace Toolbelt.Blazor.Gamepad
 
         internal void UpdateStatus(bool connected, double[] axes, GamepadButton[] buttons)
         {
-            Connected = connected;
+            _Connected = connected;
             _Axes = axes;
             _Buttons = buttons;
         }
