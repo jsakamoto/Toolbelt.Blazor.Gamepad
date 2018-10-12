@@ -18,10 +18,9 @@
     <PackageProjectUrl>https://github.com/jsakamoto/Toolbelt.Blazor.Gamepad/</PackageProjectUrl>
     <Description>gamepad API access for your Blazor apps.</Description>
     <PackageTags>blazor,gamepad</PackageTags>
-    <PackageReleaseNotes>
-      v.1.0.0
-      - 1st release.
-    </PackageReleaseNotes>
+    <PackageReleaseNotes>v.1.0.0
+- 1st release.
+</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
