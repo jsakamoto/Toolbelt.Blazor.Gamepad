@@ -10,6 +10,8 @@ namespace Toolbelt.Blazor.Gamepad
     /// </summary>
     public class Gamepad
     {
+        private readonly IJSRuntime JSRuntime;
+
         /// <summary>
         /// A string containing identifying information about the controller.
         /// </summary>
@@ -45,8 +47,9 @@ namespace Toolbelt.Blazor.Gamepad
 
         private DotNetObjectRef _ObjectRefOfThis;
 
-        internal Gamepad(string id, int index, bool connected)
+        internal Gamepad(IJSRuntime jSRuntime, string id, int index, bool connected)
         {
+            JSRuntime = jSRuntime;
             Id = id;
             Index = index;
             _Connected = connected;
@@ -58,7 +61,7 @@ namespace Toolbelt.Blazor.Gamepad
             {
                 LastRefreshTask?.Dispose();
                 if (_ObjectRefOfThis == null) _ObjectRefOfThis = new DotNetObjectRef(this);
-                LastRefreshTask = JSRuntime.Current.InvokeAsync<object>("Toolbelt.Blazor.Gamepad.refresh", _ObjectRefOfThis, this.Id, this.Index);
+                LastRefreshTask = JSRuntime.InvokeAsync<object>("Toolbelt.Blazor.Gamepad.refresh", _ObjectRefOfThis, this.Id, this.Index);
             }
             return this;
         }

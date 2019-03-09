@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 using Toolbelt.Blazor.Gamepad;
 
 namespace Toolbelt.Blazor.Extensions.DependencyInjection
@@ -14,7 +15,7 @@ namespace Toolbelt.Blazor.Extensions.DependencyInjection
         /// <param name="services">The Microsoft.Extensions.DependencyInjection.IServiceCollection to add the service to.</param>
         public static IServiceCollection AddGamepadList(this IServiceCollection services)
         {
-            services.AddScoped(_ => new GamepadList());
+            services.AddScoped(serviceProvider => new GamepadList(serviceProvider.GetService<IJSRuntime>()));
             return services;
         }
     }

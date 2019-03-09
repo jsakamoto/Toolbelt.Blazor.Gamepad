@@ -38,7 +38,7 @@
 
     Gamepad Gamepad;
 
-    System.Timers.Timer Timer = new System.Timers.Timer(200) { Enabled = true };
+    System.Timers.Timer Timer = new System.Timers.Timer(100) { Enabled = true };
 
     protected override void OnInit()
     {
@@ -50,7 +50,7 @@
         try
         {
             this.Gamepads = await GamePadList.GetGamepadsAsync();
-            this.Gamepad = this.Gamepads.FirstOrDefault();
+            this.Gamepad = this.Gamepads.LastOrDefault();
             this.StateHasChanged();
         }
         catch (Exception e)
