@@ -6,7 +6,7 @@ This is a class library that provides gamepad API access for your Blazor apps.
 
 ## Requirements
 
-[Blazor](https://blazor.net/) v.0.9.0.
+[Blazor](https://blazor.net/) v.3.0.0 Preview 4.
 
 ## How to install and use?
 
@@ -30,7 +30,7 @@ public class Startup
     services.AddGamepadList(); // <- Add this line.
     ...
 ```
-### 2. Usage in your Blazor component (.cshtml)
+### 2. Usage in your Blazor component (.razor)
 
 **Step.1** Inject the `GamepadList` service into the component.
 
@@ -45,7 +45,7 @@ After you find it, you can reference gamepad axes and buttons.
 
 _**Note**:_ _`GetGamepadsAsync()` returns empty list until any gamepad devices are activated. To activate the gamepad, you should do any actions on the gamepad device while the browser's document has focus._
 
-Sample .cshtml code is here:
+Sample .razor code is here:
 
 ```csharp
 @page "/"
@@ -95,6 +95,7 @@ Sample .cshtml code is here:
 
 ## Release Note
 
+- **v.4.0.0** - BREAKING CHANGE: Support Blazor v.3.0.0 Preview 4 (not compatible with v.0.9.0 or before.)
 - **v.3.0.0** - BREAKING CHANGE: Support Blazor v.0.9.0 (not compatible with v.0.8.0 or before.)
 - **v.2.0.0** - BREAKING CHANGE: Support Blazor v.0.8.0 (not compatible with v.0.7.0 or before.)
 - **v.1.0.0** - 1st release.
