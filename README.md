@@ -6,7 +6,7 @@ This is a class library that provides gamepad API access for your Blazor apps.
 
 ## Requirements
 
-[Blazor](https://blazor.net/) v.3.0.0 Preview 4.
+[Blazor](https://blazor.net/) v.3.0.0 Preview 6.
 
 ## How to install and use?
 
@@ -70,7 +70,7 @@ Sample .razor code is here:
   </ul>
 }
 
-@functions {
+@code {
 
   Gamepad Gamepad;
 
@@ -95,6 +95,7 @@ Sample .razor code is here:
 
 ## Release Note
 
+- **v.5.0.0** - BREAKING CHANGE: Support Blazor v.3.0.0 Preview 6 (not compatible with v.3.0.0 Preview 5 or before.)
 - **v.4.0.0** - BREAKING CHANGE: Support Blazor v.3.0.0 Preview 4 (not compatible with v.0.9.0 or before.)
 - **v.3.0.0** - BREAKING CHANGE: Support Blazor v.0.9.0 (not compatible with v.0.8.0 or before.)
 - **v.2.0.0** - BREAKING CHANGE: Support Blazor v.0.8.0 (not compatible with v.0.7.0 or before.)
