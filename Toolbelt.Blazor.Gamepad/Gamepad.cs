@@ -45,7 +45,7 @@ namespace Toolbelt.Blazor.Gamepad
 
         private Task LastRefreshTask = null;
 
-        private DotNetObjectRef<Gamepad> _ObjectRefOfThis;
+        private DotNetObjectReference<Gamepad> _ObjectRefOfThis;
 
         internal Gamepad(IJSRuntime jSRuntime, string id, int index, bool connected)
         {
@@ -60,8 +60,8 @@ namespace Toolbelt.Blazor.Gamepad
             if ((LastRefreshTask?.IsCompleted ?? true) == true)
             {
                 LastRefreshTask?.Dispose();
-                if (_ObjectRefOfThis == null) _ObjectRefOfThis = DotNetObjectRef.Create(this);
-                LastRefreshTask = JSRuntime.InvokeAsync<object>("Toolbelt.Blazor.Gamepad.refresh", _ObjectRefOfThis, this.Id, this.Index);
+                if (_ObjectRefOfThis == null) _ObjectRefOfThis = DotNetObjectReference.Create(this);
+                LastRefreshTask = JSRuntime.InvokeAsync<object>("Toolbelt.Blazor.Gamepad.refresh", _ObjectRefOfThis, this.Id, this.Index).AsTask();
             }
             return this;
         }

@@ -40,7 +40,7 @@
 
     System.Timers.Timer Timer = new System.Timers.Timer(100) { Enabled = true };
 
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
         Timer.Elapsed += Timer_Elapsed;
     }
