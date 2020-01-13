@@ -1,3 +1,4 @@
+"use strict";
 var Toolbelt;
 (function (Toolbelt) {
     var Blazor;
@@ -24,4 +25,3 @@ var Toolbelt;
         })(Gamepad = Blazor.Gamepad || (Blazor.Gamepad = {}));
     })(Blazor = Toolbelt.Blazor || (Toolbelt.Blazor = {}));
 })(Toolbelt || (Toolbelt = {}));
-//# sourceMappingURL=script.js.map

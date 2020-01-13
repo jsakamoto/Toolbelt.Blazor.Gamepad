@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using SampleSite.Components;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 
-namespace ClientSideBlazorSampleSite
+namespace SampleSite.Client
 {
     public class Startup
     {

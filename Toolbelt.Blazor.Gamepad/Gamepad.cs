@@ -36,14 +36,14 @@ namespace Toolbelt.Blazor.Gamepad
         /// </summary>
         public IReadOnlyList<double> Axes => this.Refresh()._Axes;
 
-        private List<GamepadButton> _Buttons = new List<GamepadButton>();
+        private readonly List<GamepadButton> _Buttons = new List<GamepadButton>();
 
         /// <summary>
         /// A list of GamepadButton objects representing the buttons present on the device.
         /// </summary>
         public IReadOnlyList<GamepadButton> Buttons => this.Refresh()._Buttons;
 
-        private Task LastRefreshTask = null;
+        private ValueTask LastRefreshTask = new ValueTask();
 
         private DotNetObjectReference<Gamepad> _ObjectRefOfThis;
 
@@ -57,11 +57,10 @@ namespace Toolbelt.Blazor.Gamepad
 
         private Gamepad Refresh()
         {
-            if ((LastRefreshTask?.IsCompleted ?? true) == true)
+            if (LastRefreshTask.IsCompleted)
             {
-                LastRefreshTask?.Dispose();
                 if (_ObjectRefOfThis == null) _ObjectRefOfThis = DotNetObjectReference.Create(this);
-                LastRefreshTask = JSRuntime.InvokeAsync<object>("Toolbelt.Blazor.Gamepad.refresh", _ObjectRefOfThis, this.Id, this.Index).AsTask();
+                LastRefreshTask = JSRuntime.InvokeVoidAsync("Toolbelt.Blazor.Gamepad.refresh", _ObjectRefOfThis, this.Id, this.Index);
             }
             return this;
         }

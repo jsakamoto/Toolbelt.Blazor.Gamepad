@@ -9,7 +9,7 @@
 <ul>
     @foreach (var gamePad in Gamepads)
     {
-        <li>@gamePad.Index - [@gamePad.Id]</li>
+        <li @key="@gamePad.Id">@gamePad.Index - [@gamePad.Id]</li>
     }
 </ul>
 
@@ -51,7 +51,7 @@
         {
             this.Gamepads = await GamePadList.GetGamepadsAsync();
             this.Gamepad = this.Gamepads.LastOrDefault();
-            this.StateHasChanged();
+            if (this.Gamepads.Any()) await this.InvokeAsync(() => this.StateHasChanged());
         }
         catch (Exception e)
         {

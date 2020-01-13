@@ -6,7 +6,9 @@ This is a class library that provides gamepad API access for your Blazor apps.
 
 ## Requirements
 
-[Blazor](https://blazor.net/) v.3.0.0 Preview 9.
+[Blazor](https://blazor.net/) v.3.1.0 Preview 4.
+
+Both "Blazor WebAssembly App" (a.k.a."Client-side Blazor") and "Blazor Server App" (a.k.a."Server-side Blazor") are supoorted.
 
 ## How to install and use?
 
@@ -83,7 +85,8 @@ Sample .razor code is here:
   async void Timer_Elapsed(object sender, EventArgs args) {
     var gamepads = await GamePadList.GetGamepadsAsync();
     this.Gamepad = gamepads.FirstOrDefault();
-    this.StateHasChanged();
+    if (this.Gamepads.Any()) 
+      await this.InvokeAsync(() => this.StateHasChanged());
   }
 
   public void Dispose() {
@@ -95,6 +98,9 @@ Sample .razor code is here:
 
 ## Release Note
 
+- **v.7.0.0**
+    - BREAKING CHANGE: Support Blazor v.3.1.0 Preview 4 (not compatible with v.3.1.0 Preview 3 or before.)
+    - Add support for Blazor Server App ("Server-side Blazor").
 - **v.6.0.0** - BREAKING CHANGE: Support Blazor v.3.0.0 Preview 9 (not compatible with v.3.0.0 Preview 8 or before.)
 - **v.5.0.0** - BREAKING CHANGE: Support Blazor v.3.0.0 Preview 6 (not compatible with v.3.0.0 Preview 5 or before.)
 - **v.4.0.0** - BREAKING CHANGE: Support Blazor v.3.0.0 Preview 4 (not compatible with v.0.9.0 or before.)
