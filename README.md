@@ -6,7 +6,7 @@ This is a class library that provides gamepad API access for your Blazor apps.
 
 ## Requirements
 
-[Blazor](https://blazor.net/) v.3.1.0 Preview 4.
+[Blazor](https://blazor.net/) v.3.1.0 Preview 4 or later.
 
 Both "Blazor WebAssembly App" (a.k.a."Client-side Blazor") and "Blazor Server App" (a.k.a."Server-side Blazor") are supoorted.
 
@@ -20,7 +20,9 @@ Both "Blazor WebAssembly App" (a.k.a."Client-side Blazor") and "Blazor Server Ap
 > dotnet add package Toolbelt.Blazor.Gamepad
 ```
 
-**Step.2** Register "GamepadList" service into the DI container, at `ConfigureService` method in the `Startup` class of your Blazor application.
+**Step.2** Register "GamepadList" service into the DI container.
+
+If the project is a Blazor Server App or a Blazor WebAssembly App ver.3.1 Preview 4 or earlyer, add the code into the `ConfigureService` method in the `Startup` class of your Blazor application.
 
 ```csharp
 using Toolbelt.Blazor.Extensions.DependencyInjection; // <- Add this line, and...
@@ -32,6 +34,24 @@ public class Startup
     services.AddGamepadList(); // <- Add this line.
     ...
 ```
+
+If the project is a Blazor WebAssembly App ver.3.2 Preview 1 or later, add the code into the `Main` method in the `Program` class of your Blazor application.
+
+```csharp
+// Program.cs
+
+using Toolbelt.Blazor.Extensions.DependencyInjection; // <- Add this, and...
+...
+public class Program
+{
+  public static async Task Main(string[] args)
+  {
+    var builder = WebAssemblyHostBuilder.CreateDefault(args);
+    ...
+    builder.Services.AddGamepadList(); // <- Add this line.
+    ...
+```
+
 ### 2. Usage in your Blazor component (.razor)
 
 **Step.1** Inject the `GamepadList` service into the component.
