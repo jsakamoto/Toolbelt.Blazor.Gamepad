@@ -6,7 +6,14 @@ This is a class library that provides gamepad API access for your Blazor apps.
 
 ## Requirements
 
-[Blazor](https://blazor.net/) v.3.1.0 Preview 4 or later.
+"Blazor Gamepad" ver.7.x supports Blazor versions below.
+
+- v.3.1
+    - including previews and release candidates.
+- v.3.2
+    - including previews and release candidates.
+- v.5.0
+    - including previews and release candidates.
 
 Both "Blazor WebAssembly App" (a.k.a."Client-side Blazor") and "Blazor Server App" (a.k.a."Server-side Blazor") are supoorted.
 
@@ -35,7 +42,7 @@ public class Startup
     ...
 ```
 
-If the project is a Blazor WebAssembly App ver.3.2 Preview 1 or later, add the code into the `Main` method in the `Program` class of your Blazor application.
+If the project is a Blazor WebAssembly App ver.3.2 Preview 1 or later (includes .NET 5), add the code into the `Main` method in the `Program` class of your Blazor application.
 
 ```csharp
 // Program.cs
