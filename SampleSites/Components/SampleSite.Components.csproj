@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -6,7 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
-    <PackageReference Include="Toolbelt.Blazor.Gamepad" Version="7.0.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Toolbelt.Blazor.Gamepad" Version="8.0.0-preview.1.0" />
+    <!--<ProjectReference Include="..\..\Toolbelt.Blazor.Gamepad\Toolbelt.Blazor.Gamepad.csproj" />-->
   </ItemGroup>
 
 </Project>

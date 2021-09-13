@@ -123,17 +123,9 @@ Sample .razor code is here:
 }
 ```
 
-## Release Note
+## Release Notes
 
-- **v.7.0.0**
-    - BREAKING CHANGE: Support Blazor v.3.1.0 Preview 4 (not compatible with v.3.1.0 Preview 3 or before.)
-    - Add support for Blazor Server App ("Server-side Blazor").
-- **v.6.0.0** - BREAKING CHANGE: Support Blazor v.3.0.0 Preview 9 (not compatible with v.3.0.0 Preview 8 or before.)
-- **v.5.0.0** - BREAKING CHANGE: Support Blazor v.3.0.0 Preview 6 (not compatible with v.3.0.0 Preview 5 or before.)
-- **v.4.0.0** - BREAKING CHANGE: Support Blazor v.3.0.0 Preview 4 (not compatible with v.0.9.0 or before.)
-- **v.3.0.0** - BREAKING CHANGE: Support Blazor v.0.9.0 (not compatible with v.0.8.0 or before.)
-- **v.2.0.0** - BREAKING CHANGE: Support Blazor v.0.8.0 (not compatible with v.0.7.0 or before.)
-- **v.1.0.0** - 1st release.
+The release notes is [here.](https://github.com/jsakamoto/Toolbelt.Blazor.Gamepad/blob/master/RELEASE-NOTES.txt)
 
 ## License
 

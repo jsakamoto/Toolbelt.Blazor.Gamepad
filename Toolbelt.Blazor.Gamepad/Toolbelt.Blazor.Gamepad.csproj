@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <LangVersion>8.0</LangVersion>
     <RazorLangVersion>3.0</RazorLangVersion>
@@ -11,9 +11,9 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
-    <Copyright>Copyright © 2018-2020 J.Sakamoto, Mozilla Public License 2.0</Copyright>
+    <Copyright>Copyright © 2018-2021 J.Sakamoto, Mozilla Public License 2.0</Copyright>
     <Authors>J.Sakamoto</Authors>
-    <Version>7.0.0.3</Version>
+    <Version>8.0.0-preview.1.0</Version>
     <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/jsakamoto/Toolbelt.Blazor.Gamepad/</PackageProjectUrl>
@@ -23,16 +23,25 @@
     <PackageOutputPath>..\_dist\</PackageOutputPath>
     <PackageIcon>nupkg-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <DefineConstants Condition=" '$(TargetFramework)' != 'netstandard2.0' ">$(DefineConstants);ENABLE_JSMODULE</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard2.0' ">
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.7.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="BuildBundlerMinifier" Version="3.2.435">
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
@@ -45,8 +54,8 @@
 
   <PropertyGroup>
     <TypeScriptTarget>ES2015</TypeScriptTarget>
+    <TypeScriptModuleKind>ESNext</TypeScriptModuleKind>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
-    <TypeScriptModuleKind>None</TypeScriptModuleKind>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
     <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
