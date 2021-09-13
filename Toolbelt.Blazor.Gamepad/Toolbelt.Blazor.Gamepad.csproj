@@ -20,6 +20,7 @@
     <Description>gamepad API access for your Blazor apps.</Description>
     <PackageTags>blazor,gamepad</PackageTags>
     <PackageReleaseNotes>(Please write the package release notes in "RELEASE NOTES.txt".)</PackageReleaseNotes>
+    <PackageOutputPath>..\_dist\</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
