@@ -19,22 +19,7 @@
     <PackageProjectUrl>https://github.com/jsakamoto/Toolbelt.Blazor.Gamepad/</PackageProjectUrl>
     <Description>gamepad API access for your Blazor apps.</Description>
     <PackageTags>blazor,gamepad</PackageTags>
-    <PackageReleaseNotes>v.7.0.0
-- BREAKING CHANGE: Support Blazor v.3.1.0 Preview 4 (not compatible with v.3.1.0 Preview 3 or before.)
-- Add support for Blazor Server App ("Server-side Blazor").
-v.6.0.0
-- BREAKING CHANGE: Support Blazor v.3.0.0 Preview 9 (not compatible with v.3.0.0 Preview 8 or before.)
-v.5.0.0
-- BREAKING CHANGE: Support Blazor v.3.0.0 Preview 6 (not compatible with v.3.0.0 Preview 5 or before.)
-v.4.0.0
-- BREAKING CHANGE: Support Blazor v.3.0.0 (not compatible with v.0.9.0 or before.)
-v.3.0.0
-- BREAKING CHANGE: Support Blazor v.0.9.0 (not compatible with v.0.8.0 or before.)
-v.2.0.0
-- BREAKING CHANGE: Support Blazor v.0.8.0 (not compatible with v.0.7.0 or before.)
-v.1.0.0
-- 1st release.
-</PackageReleaseNotes>
+    <PackageReleaseNotes>(Please write the package release notes in "RELEASE NOTES.txt".)</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -70,5 +55,15 @@ v.1.0.0
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
   </PropertyGroup>
+
+  <Target Name="PreparePackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec">
+    <ReadLinesFromFile File="../RELEASE-NOTES.txt">
+      <Output TaskParameter="Lines" ItemName="ReleaseNoteLines" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <PackageReleaseNotes>@(ReleaseNoteLines, '%0a')</PackageReleaseNotes>
+      <PackageReleaseNotes>$([System.Text.RegularExpressions.Regex]::Match($(PackageReleaseNotes), "^(v\.[\d\.]+.+?)v\.[\d\.]+", System.Text.RegularExpressions.RegexOptions.Singleline).Groups[1].Value)</PackageReleaseNotes>
+    </PropertyGroup>
+  </Target>
 
 </Project>
