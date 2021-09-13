@@ -21,6 +21,7 @@
     <PackageTags>blazor,gamepad</PackageTags>
     <PackageReleaseNotes>(Please write the package release notes in "RELEASE NOTES.txt".)</PackageReleaseNotes>
     <PackageOutputPath>..\_dist\</PackageOutputPath>
+    <PackageIcon>nupkg-icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,9 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="**\*.json">
-      <Pack>false</Pack>
-    </Content>
+    <Content Update="**\*.json" Pack="false" />
+    <None Include="..\.assets\nupkg-icon.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
   <PropertyGroup>
