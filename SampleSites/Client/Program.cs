@@ -11,7 +11,10 @@ namespace SampleSite.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
-            builder.Services.AddGamepadList();
+            builder.Services.AddGamepadList(options =>
+            {
+                //options.DisableClientScriptAutoInjection = true;
+            });
 
             await builder.Build().RunAsync();
         }

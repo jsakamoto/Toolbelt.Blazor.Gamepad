@@ -6,14 +6,11 @@ This is a class library that provides gamepad API access for your Blazor apps.
 
 ## Requirements
 
-"Blazor Gamepad" ver.7.x supports Blazor versions below.
+"Blazor Gamepad" ver.7.x or later supports Blazor versions below.
 
-- v.3.1
-    - including previews and release candidates.
-- v.3.2
-    - including previews and release candidates.
-- v.5.0
-    - including previews and release candidates.
+- v.3.1 (including previews and release candidates)
+- v.3.2 (including previews and release candidates)
+- v.5.0 (including previews and release candidates)
 
 Both "Blazor WebAssembly App" (a.k.a."Client-side Blazor") and "Blazor Server App" (a.k.a."Server-side Blazor") are supoorted.
 
@@ -122,6 +119,25 @@ Sample .razor code is here:
   }
 }
 ```
+
+## Configuration options
+
+The calling of `AddGamepadList()` injects the reference of the helper JavaScript file (.js) - which are bundled with this package - into your page automatically.
+
+If you don't want this behavior, you can disable the automatic injections. 
+To do that, please call `AddGamepadList()` with configuration action like this:
+
+```csharp
+builder.Services.AddGamepadList(options =>
+{
+  // If you don't want automatic injection of js file, add below;
+  options.DisableClientScriptAutoInjection = true;
+});
+```
+
+You can inject the helper JavaScript file manually. The URL of that JavaScript file is below:
+
+- `_content/Toolbelt.Blazor.Gamepad/script.min.js`
 
 ## Release Notes
 

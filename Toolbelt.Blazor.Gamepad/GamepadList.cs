@@ -23,6 +23,8 @@ namespace Toolbelt.Blazor.Gamepad
 
         private JSInvoker JSInvoker;
 
+        private readonly GamepadOptions Options;
+
         private readonly List<Gamepad> _Gamepads = new List<Gamepad>();
 
         private readonly SemaphoreSlim Syncer = new SemaphoreSlim(1, 1);
@@ -30,9 +32,10 @@ namespace Toolbelt.Blazor.Gamepad
         /// <summary>
         /// Initialize a new instance of the GamepadList class.
         /// </summary>
-        internal GamepadList(IJSRuntime jSRuntime)
+        internal GamepadList(IJSRuntime jSRuntime, GamepadOptions options)
         {
             this.JSRuntime = jSRuntime;
+            this.Options = options;
         }
 
         /// <summary>
@@ -71,12 +74,23 @@ namespace Toolbelt.Blazor.Gamepad
 
                 var version = this.GetVersionText();
 #if ENABLE_JSMODULE
-                var scriptPath = $"./_content/Toolbelt.Blazor.Gamepad/script.module.min.js?v={version}";
-                this.JSModule = await this.JSRuntime.InvokeAsync<IJSObjectReference>("import", scriptPath);
-                this.JSInvoker = new JSInvoker(this.JSRuntime, this.JSModule);
+                if (!this.Options.DisableClientScriptAutoInjection)
+                {
+                    var scriptPath = $"./_content/Toolbelt.Blazor.Gamepad/script.module.min.js?v={version}";
+                    this.JSModule = await this.JSRuntime.InvokeAsync<IJSObjectReference>("import", scriptPath);
+                    this.JSInvoker = new JSInvoker(this.JSRuntime, this.JSModule);
+                }
+                else
+                {
+                    try { await this.JSRuntime.InvokeVoidAsync("Toolbelt.Blazor.Gamepad.ready"); } catch { }
+                    this.JSInvoker = new JSInvoker(this.JSRuntime, null);
+                }
 #else
-                const string scriptPath = "_content/Toolbelt.Blazor.Gamepad/script.min.js";
-                await this.JSRuntime.InvokeVoidAsync("eval", "new Promise(r=>((d,t,s,v)=>(h=>h.querySelector(t+`[src^=\"${s}\"]`)?r():(e=>(e.src=(s+v),e.onload=r,h.appendChild(e)))(d.createElement(t)))(d.head))(document,'script','" + scriptPath + "','?v=" + version + "'))");
+                if (!this.Options.DisableClientScriptAutoInjection)
+                {
+                    const string scriptPath = "_content/Toolbelt.Blazor.Gamepad/script.min.js";
+                    await this.JSRuntime.InvokeVoidAsync("eval", "new Promise(r=>((d,t,s,v)=>(h=>h.querySelector(t+`[src^=\"${s}\"]`)?r():(e=>(e.src=(s+v),e.onload=r,h.appendChild(e)))(d.createElement(t)))(d.head))(document,'script','" + scriptPath + "','?v=" + version + "'))");
+                }
                 try { await this.JSRuntime.InvokeVoidAsync("Toolbelt.Blazor.Gamepad.ready"); } catch { }
                 this.JSInvoker = this.JSRuntime;
 #endif

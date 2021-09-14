@@ -1,5 +1,6 @@
 v.8.0.0
 - Improve: load the helper JavaScript by Blazor JavaScript isolation feature (ES2015 module system) instead of using "eval".
+- Improve: Add a new configuration option to disable automatic script injection.
 
 v.7.0.0
 - BREAKING CHANGE: Support Blazor v.3.1.0 Preview 4 (not compatible with v.3.1.0 Preview 3 or before.)
