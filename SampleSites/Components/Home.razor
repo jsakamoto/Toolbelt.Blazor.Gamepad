@@ -1,9 +1,10 @@
 ﻿@page "/"
+@using System.Runtime.InteropServices
 @using Toolbelt.Blazor.Gamepad
 @inject GamepadList GamePadList
 @implements IDisposable
 
-<p>@DateTime.Now | <NavLink href="about">About</NavLink></p>
+<p>@DateTime.Now | @RuntimeInformation.FrameworkDescription / @RuntimeInformation.ProcessArchitecture | <NavLink href="about">About</NavLink></p>
 
 <p>Game Pad List (@Gamepads.Count())</p>
 <ul>

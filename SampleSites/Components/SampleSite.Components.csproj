@@ -1,16 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+    <RazorLangVersion>3.0</RazorLangVersion>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard2.0' ">
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Toolbelt.Blazor.Gamepad" Version="8.0.0-preview.1.0" />
-    <!--<ProjectReference Include="..\..\Toolbelt.Blazor.Gamepad\Toolbelt.Blazor.Gamepad.csproj" />-->
+    <!--<PackageReference Include="Toolbelt.Blazor.Gamepad" Version="8.0.0-preview.1.0" />-->
+    <ProjectReference Include="..\..\Toolbelt.Blazor.Gamepad\Toolbelt.Blazor.Gamepad.csproj" />
   </ItemGroup>
 
 </Project>
