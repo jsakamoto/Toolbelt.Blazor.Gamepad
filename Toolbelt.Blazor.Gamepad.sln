@@ -23,6 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleSite.Server", "Sample
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleSite.Client.Net31", "SampleSites\Client31\SampleSite.Client.Net31.csproj", "{6ECA5925-0605-417D-A73D-E9FCE848256A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub Actions", "GitHub Actions", "{7D027525-8AFB-48D9-B79B-91E34B8F3F76}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\gh-pages.yml = .github\workflows\gh-pages.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
