@@ -1,48 +1,85 @@
 ﻿@page "/"
-@using System.Runtime.InteropServices
 @using Toolbelt.Blazor.Gamepad
+@using static System.Math
 @inject GamepadList GamePadList
 @implements IDisposable
+<Title>Home | Blazor Gamepad</Title>
 
-<p>@DateTime.Now | @RuntimeInformation.FrameworkDescription / @RuntimeInformation.ProcessArchitecture | <NavLink href="about">About</NavLink></p>
+<div class="left-pane">
+    <p>Game Pad List (@Gamepads.Count())</p>
+    <ul>
+        @foreach (var gamePad in Gamepads)
+        {
+            <li @key="@gamePad.Id">@gamePad.Index - [@gamePad.Id]</li>
+        }
+    </ul>
 
-<p>Game Pad List (@Gamepads.Count())</p>
-<ul>
-    @foreach (var gamePad in Gamepads)
+    @if (this.Gamepad != null)
     {
-        <li @key="@gamePad.Id">@gamePad.Index - [@gamePad.Id]</li>
+        <p>Axes</p>
+        <ul>
+            @foreach (var ax in Gamepad.Axes)
+            {
+                <li>@ax.ToString("#,0.0")</li>
+            }
+        </ul>
+
+        <p>Buttons</p>
+        <ul>
+            @foreach (var button in Gamepad.Buttons)
+            {
+                <li>@button.Pressed (@button.Value)</li>
+            }
+        </ul>
     }
-</ul>
+</div>
 
-@if (this.Gamepad != null)
-{
-    <p>Axes</p>
-    <ul>
-        @foreach (var ax in Gamepad.Axes)
-        {
-            <li>@ax.ToString("#,0.0")</li>
-        }
-    </ul>
+<div class="right-pane">
+    <div class="space-box">
 
-    <p>Buttons</p>
-    <ul>
-        @foreach (var button in Gamepad.Buttons)
+        <div class="space-ship" style="left:@(SpaceShipX)px;top:@(SpaceShipY)px;">🚀</div>
+
+        @foreach (var bullet in this.Bullets)
         {
-            <li>@button.Pressed (@button.Value)</li>
+            <div @key="@bullet.Key" class="bullet" style="left:@(bullet.FiredX)px; top:@(bullet.FiredY)px;"></div>
         }
-    </ul>
-}
+    </div>
+</div>
 
 @code
 {
+    [CascadingParameter] Layout.HeaderLinkType headerLink { get; set; }
+
     IEnumerable<Gamepad> Gamepads = new Gamepad[0];
 
     Gamepad Gamepad;
 
-    System.Timers.Timer Timer = new System.Timers.Timer(100) { Enabled = true };
+    System.Timers.Timer Timer = new System.Timers.Timer(50) { Enabled = true };
+
+    const double SpaceBoxSize = 320;
+    const double SpaceShipSize = 30;
+    const double MovingStep = 15;
+
+    double SpaceShipX = (SpaceBoxSize - SpaceShipSize) / 2;
+    double SpaceShipY = (SpaceBoxSize - SpaceShipSize) / 2;
+
+    bool ButtonPressedPrev = false;
+
+    class Bullet
+    {
+        public readonly Guid Key = Guid.NewGuid();
+        public readonly DateTime FiredDateTime = DateTime.UtcNow;
+        public readonly double FiredX;
+        public readonly double FiredY;
+        public Bullet(double x, double y) { this.FiredX = x; this.FiredY = y; }
+    }
+
+    readonly List<Bullet> Bullets = new List<Bullet>();
 
     protected override void OnInitialized()
     {
+        headerLink.Update("about", "📣", "About");
+
         Timer.Elapsed += Timer_Elapsed;
     }
 
@@ -52,6 +89,31 @@
         {
             this.Gamepads = await GamePadList.GetGamepadsAsync();
             this.Gamepad = this.Gamepads.LastOrDefault();
+
+            if (this.Gamepad != null)
+            {
+                var dx = Round(this.Gamepad.Axes[0], 2);
+                var dy = Round(this.Gamepad.Axes[1], 2);
+                this.SpaceShipX = Min(Max(0, this.SpaceShipX + MovingStep * dx), SpaceBoxSize - SpaceShipSize);
+                this.SpaceShipY = Min(Max(0, this.SpaceShipY + MovingStep * dy), SpaceBoxSize - SpaceShipSize); ;
+
+                var toRemoves = this.Bullets.Where(bullet => (DateTime.UtcNow - bullet.FiredDateTime).TotalMilliseconds > 500).ToArray();
+                foreach (var toRemove in toRemoves) 
+                { 
+                    this.Bullets.Remove(toRemove); 
+                }
+
+                var buttonPressed = this.Gamepad.Buttons.Any(btn => btn.Pressed);
+                if (this.ButtonPressedPrev != buttonPressed)
+                {
+                    this.ButtonPressedPrev = buttonPressed;
+                    if (buttonPressed)
+                    {
+                        this.Bullets.Add(new Bullet(this.SpaceShipX + SpaceShipSize / 2, this.SpaceShipY));
+                    }
+                }
+            }
+
             if (this.Gamepads.Any()) await this.InvokeAsync(() => this.StateHasChanged());
         }
         catch (Exception e)

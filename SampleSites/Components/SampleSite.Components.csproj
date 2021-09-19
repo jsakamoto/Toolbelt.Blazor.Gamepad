@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Toolbelt.Blazor.Gamepad" Version="8.0.0" />
+    <PackageReference Include="Toolbelt.Blazor.HeadElement" Version="6.0.0" />
     <!--<ProjectReference Include="..\..\Toolbelt.Blazor.Gamepad\Toolbelt.Blazor.Gamepad.csproj" />-->
   </ItemGroup>
 

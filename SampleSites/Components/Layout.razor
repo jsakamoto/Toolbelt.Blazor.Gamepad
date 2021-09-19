@@ -1,0 +1,67 @@
+@inherits LayoutComponentBase
+@using System.Runtime.InteropServices
+
+<header>
+    <div>
+        <h1>Blazor Gamepad</h1>
+        <div class="site-description">This is the demonstration site of the class library that provides gamepad API access for your Blazor apps.</div>
+    </div>
+    <div>
+        @if (this.HeaderLink.Url != "")
+        {
+            <span class="icon">@this.HeaderLink.Emoji</span>
+            <a href="@this.HeaderLink.Url">@this.HeaderLink.Text</a>
+        }
+    </div>
+</header>
+
+<main>
+    <CascadingValue Value="this.HeaderLink">
+        @Body
+    </CascadingValue>
+</main>
+
+<footer>
+    <div>
+        <a href="https://www.nuget.org/packages/Toolbelt.Blazor.Gamepad/" target="_blank"><img src="https://img.shields.io/nuget/v/Toolbelt.Blazor.Gamepad.svg" alt="Blazor Gamepad - NuGet package" /></a>
+    </div>
+    <div>|</div>
+    <div>@DateTime.Now</div>
+    <div>|</div>
+    <div>@RuntimeInformation.FrameworkDescription / @RuntimeInformation.ProcessArchitecture</div>
+</footer>
+
+@code
+{
+    System.Timers.Timer Timer = new System.Timers.Timer(1000) { Enabled = true };
+
+    public class HeaderLinkType
+    {
+        public string Url { get; private set; } = "";
+        public string Emoji { get; private set; } = "";
+        public string Text { get; private set; } = "";
+        private IHandleEvent _OwnerComponent;
+        public HeaderLinkType(IHandleEvent ownerComponent) { _OwnerComponent = ownerComponent; }
+
+        public void Update(string url, string emoji, string text)
+        {
+            Url = url;
+            Emoji = emoji;
+            Text = text;
+            _OwnerComponent.HandleEventAsync(EventCallbackWorkItem.Empty, null);
+        }
+    }
+
+    HeaderLinkType HeaderLink { get; set; }
+
+    protected override void OnInitialized()
+    {
+        HeaderLink = new HeaderLinkType(this as IHandleEvent);
+        Timer.Elapsed += Timer_Elapsed;
+    }
+
+    private async void Timer_Elapsed(object sender, EventArgs args)
+    {
+        await this.InvokeAsync(() => this.StateHasChanged());
+    }
+}

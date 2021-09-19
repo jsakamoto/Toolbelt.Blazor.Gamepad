@@ -1,5 +1,37 @@
 ﻿@page "/about"
+<Title>About | Blazor Gamepad</Title>
 
-<p>About Toolbelt.Blazor.Gamepad</p>
+<article class="about-page">
 
-<p><NavLink href="/">Home</NavLink></p>
+    <h2>About "Blazor Gamepad"</h2>
+
+    <div class="links">
+        <h3>NuGet Package</h3>
+        <p>
+            <a href="https://www.nuget.org/packages/Toolbelt.Blazor.Gamepad/" target="_blank">
+                https://www.nuget.org/packages/Toolbelt.Blazor.Gamepad/
+            </a>
+        </p>
+
+        <h3>GitHub Repository</h3>
+        <p>
+            <a href="https://github.com/jsakamoto/Toolbelt.Blazor.Gamepad" target="_blank">
+                https://github.com/jsakamoto/Toolbelt.Blazor.Gamepad
+            </a>
+        </p>
+    </div>
+
+    <p>
+        <a href="./" class="button">BACK TO HOME</a>
+    </p>
+</article>
+
+@code
+{
+    [CascadingParameter] Layout.HeaderLinkType headerLink { get; set; }
+
+    protected override void OnInitialized()
+    {
+        headerLink.Update("", "", "");
+    }
+}
