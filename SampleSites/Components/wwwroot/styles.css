@@ -1,8 +1,8 @@
 @import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap';
 
 :root {
-    --theme-color: #6C429C;
-    --theme-color-lighten: #915BD3;
+    --theme-color: #682A7B;
+    --theme-color-lighten: #8638A0;
     --header-height: 64px;
     --footer-height: 32px;
     --space-box-size: 320px;
@@ -29,6 +29,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-image: url(./nupkg-icon.png);
+    background-size: 64px 64px;
+    background-repeat: no-repeat;
+    padding-left: 68px;
+    background-position: 4px -5px;
 }
 
 h1 {
@@ -39,7 +44,7 @@ h1 {
 
 .site-description {
     white-space: nowrap;
-    max-width: calc(100vw - 100px);
+    max-width: calc(100vw - 160px);
     text-overflow: ellipsis;
     overflow: hidden;
 }
