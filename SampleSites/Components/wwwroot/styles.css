@@ -75,6 +75,36 @@ main {
     max-width: 200px;
 }
 
+.connect-message {
+    padding: 4px 8px;
+    margin: 0;
+    background-color: darkorange;
+    color: #fff;
+    border-radius: 4px;
+    animation: connect-message 2s linear 0s infinite normal forwards running;
+}
+
+@keyframes connect-message {
+    0% {
+        background-color: darkorange;
+    }
+    10% {
+        background-color: darkorange;
+    }
+    40% {
+        background-color: indianred;
+    }
+    60% {
+        background-color: indianred;
+    }
+    90% {
+        background-color: darkorange;
+    }
+    100% {
+        background-color: darkorange;
+    }
+}
+
 .right-pane {
     flex: 1;
     position: relative;

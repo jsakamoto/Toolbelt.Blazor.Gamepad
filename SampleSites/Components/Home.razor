@@ -6,7 +6,14 @@
 <Title>Home | Blazor Gamepad</Title>
 
 <div class="left-pane">
+
     <p>Game Pad List (@Gamepads.Count())</p>
+    @if (!Gamepads.Any())
+    {
+        <p class="connect-message">
+            Connect your gamepad device.
+        </p>
+    }
     <ul>
         @foreach (var gamePad in Gamepads)
         {
@@ -98,9 +105,9 @@
                 this.SpaceShipY = Min(Max(0, this.SpaceShipY + MovingStep * dy), SpaceBoxSize - SpaceShipSize); ;
 
                 var toRemoves = this.Bullets.Where(bullet => (DateTime.UtcNow - bullet.FiredDateTime).TotalMilliseconds > 500).ToArray();
-                foreach (var toRemove in toRemoves) 
-                { 
-                    this.Bullets.Remove(toRemove); 
+                foreach (var toRemove in toRemoves)
+                {
+                    this.Bullets.Remove(toRemove);
                 }
 
                 var buttonPressed = this.Gamepad.Buttons.Any(btn => btn.Pressed);
