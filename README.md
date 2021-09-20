@@ -6,6 +6,8 @@ This is a class library that provides gamepad API access for your Blazor apps.
 
 - _**Live Demo Site:**_ https://jsakamoto.github.io/Toolbelt.Blazor.Gamepad/
 
+![demo movie](https://raw.githubusercontent.com/jsakamoto/Toolbelt.Blazor.Gamepad/master/.assets/movie-001.gif)
+
 ## Requirements
 
 "Blazor Gamepad" ver.7.x or later supports Blazor versions below.
