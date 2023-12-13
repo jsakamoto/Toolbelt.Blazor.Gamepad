@@ -1,4 +1,6 @@
-﻿using Microsoft.JSInterop;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.JSInterop;
+using static System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes;
 
 namespace Toolbelt.Blazor.Gamepad;
 
@@ -14,7 +16,7 @@ internal class JSInvoker : IAsyncDisposable
         this.JSModule = jsModule;
     }
 
-    public ValueTask<T> InvokeAsync<T>(string identifier, params object[]? args)
+    public ValueTask<T> InvokeAsync<[DynamicallyAccessedMembers(PublicConstructors | PublicFields | PublicProperties)] T>(string identifier, params object[]? args)
     {
         if (this.JSModule != null)
             return this.JSModule.InvokeAsync<T>(identifier, args);
