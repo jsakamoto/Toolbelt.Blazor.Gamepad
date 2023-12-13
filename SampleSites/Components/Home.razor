@@ -55,13 +55,13 @@
 
 @code
 {
-    [CascadingParameter] Layout.HeaderLinkType headerLink { get; set; }
+    [CascadingParameter] Layout.HeaderLinkType? headerLink { get; set; }
 
-    IEnumerable<Gamepad> Gamepads = new Gamepad[0];
+    private IEnumerable<Gamepad> Gamepads = new Gamepad[0];
 
-    Gamepad Gamepad;
+    private Gamepad? Gamepad;
 
-    System.Timers.Timer Timer = new System.Timers.Timer(50) { Enabled = true };
+    private System.Timers.Timer Timer = new(interval: 50) { Enabled = true };
 
     const double SpaceBoxSize = 320;
     const double SpaceShipSize = 30;
@@ -85,12 +85,12 @@
 
     protected override void OnInitialized()
     {
-        headerLink.Update("about", "📣", "About");
+        headerLink?.Update("about", "📣", "About");
 
         Timer.Elapsed += Timer_Elapsed;
     }
 
-    private async void Timer_Elapsed(object sender, EventArgs args)
+    private async void Timer_Elapsed(object? sender, EventArgs args)
     {
         try
         {

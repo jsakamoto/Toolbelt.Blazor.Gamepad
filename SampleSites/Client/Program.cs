@@ -1,30 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿using SampleSite.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using SampleSite.Components;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 
-namespace SampleSite.Client
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
+
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddHeadElementHelper();
+builder.Services.AddGamepadList(options =>
 {
-    public class Program
-    {
-        public static async Task Main(string[] args)
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("#app");
-            
-            ConfigureServices(builder.Services);
+    //options.DisableClientScriptAutoInjection = true;
+});
 
-            await builder.Build().RunAsync();
-        }
-
-        private static void ConfigureServices(IServiceCollection services)
-        {
-            services.AddHeadElementHelper();
-            services.AddGamepadList(options =>
-            {
-                //options.DisableClientScriptAutoInjection = true;
-            });
-        }
-    }
-}
+await builder.Build().RunAsync();

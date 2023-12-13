@@ -28,10 +28,10 @@
 
 @code
 {
-    [CascadingParameter] Layout.HeaderLinkType headerLink { get; set; }
+    [CascadingParameter] Layout.HeaderLinkType? headerLink { get; set; }
 
     protected override void OnInitialized()
     {
-        headerLink.Update("", "", "");
+        headerLink?.Update("", "", "");
     }
 }

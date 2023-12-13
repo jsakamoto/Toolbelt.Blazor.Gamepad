@@ -1,6 +1,4 @@
-﻿#if ENABLE_JSMODULE
-#nullable enable
-using System.Threading.Tasks;
+﻿#nullable enable
 using Microsoft.JSInterop;
 
 namespace Toolbelt.Blazor.Gamepad
@@ -26,4 +24,3 @@ namespace Toolbelt.Blazor.Gamepad
         }
     }
 }
-#endif

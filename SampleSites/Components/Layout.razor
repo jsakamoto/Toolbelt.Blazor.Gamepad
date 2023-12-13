@@ -7,10 +7,10 @@
         <div class="site-description">This is the demonstration site of the class library that provides gamepad API access for your Blazor apps.</div>
     </div>
     <div>
-        @if (this.HeaderLink.Url != "")
+        @if (this.HeaderLink?.Url != "")
         {
-            <span class="icon">@this.HeaderLink.Emoji</span>
-            <a href="@this.HeaderLink.Url">@this.HeaderLink.Text</a>
+            <span class="icon">@this.HeaderLink?.Emoji</span>
+            <a href="@this.HeaderLink?.Url">@this.HeaderLink?.Text</a>
         }
     </div>
 </header>
@@ -33,7 +33,7 @@
 
 @code
 {
-    System.Timers.Timer Timer = new System.Timers.Timer(1000) { Enabled = true };
+    private System.Timers.Timer Timer = new(interval: 1000) { Enabled = true };
 
     public class HeaderLinkType
     {
@@ -52,7 +52,7 @@
         }
     }
 
-    HeaderLinkType HeaderLink { get; set; }
+    private HeaderLinkType? HeaderLink { get; set; }
 
     protected override void OnInitialized()
     {
@@ -60,7 +60,7 @@
         Timer.Elapsed += Timer_Elapsed;
     }
 
-    private async void Timer_Elapsed(object sender, EventArgs args)
+    private async void Timer_Elapsed(object? sender, EventArgs args)
     {
         await this.InvokeAsync(() => this.StateHasChanged());
     }

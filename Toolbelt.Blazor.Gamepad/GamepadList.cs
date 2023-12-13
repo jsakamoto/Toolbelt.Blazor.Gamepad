@@ -1,23 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using Microsoft.JSInterop;
-#if !ENABLE_JSMODULE
-using JSInvoker = Microsoft.JSInterop.IJSRuntime;
-#endif
 
 namespace Toolbelt.Blazor.Gamepad
 {
     /// <summary>
     /// Provides gamepad API access.
     /// </summary>
-    public class GamepadList
-#if ENABLE_JSMODULE
-        : System.IAsyncDisposable
-#endif
+    public class GamepadList : IAsyncDisposable
     {
         private readonly IJSRuntime JSRuntime;
 
@@ -73,7 +62,6 @@ namespace Toolbelt.Blazor.Gamepad
                 if (this.JSInvoker != null) return this.JSInvoker;
 
                 var version = this.GetVersionText();
-#if ENABLE_JSMODULE
                 if (!this.Options.DisableClientScriptAutoInjection)
                 {
                     var scriptPath = $"./_content/Toolbelt.Blazor.Gamepad/script.module.min.js?v={version}";
@@ -85,15 +73,6 @@ namespace Toolbelt.Blazor.Gamepad
                     try { await this.JSRuntime.InvokeVoidAsync("Toolbelt.Blazor.Gamepad.ready"); } catch { }
                     this.JSInvoker = new JSInvoker(this.JSRuntime, null);
                 }
-#else
-                if (!this.Options.DisableClientScriptAutoInjection)
-                {
-                    const string scriptPath = "_content/Toolbelt.Blazor.Gamepad/script.min.js";
-                    await this.JSRuntime.InvokeVoidAsync("eval", "new Promise(r=>((d,t,s,v)=>(h=>h.querySelector(t+`[src^=\"${s}\"]`)?r():(e=>(e.src=(s+v),e.onload=r,h.appendChild(e)))(d.createElement(t)))(d.head))(document,'script','" + scriptPath + "','?v=" + version + "'))");
-                }
-                try { await this.JSRuntime.InvokeVoidAsync("Toolbelt.Blazor.Gamepad.ready"); } catch { }
-                this.JSInvoker = this.JSRuntime;
-#endif
             }
             catch (Exception) { }
             finally { this.Syncer.Release(); }
@@ -110,13 +89,11 @@ namespace Toolbelt.Blazor.Gamepad
             return version;
         }
 
-#if ENABLE_JSMODULE
         private IJSObjectReference JSModule;
 
         public async ValueTask DisposeAsync()
         {
             if (this.JSModule != null) await this.JSModule.DisposeAsync();
         }
-#endif
     }
 }

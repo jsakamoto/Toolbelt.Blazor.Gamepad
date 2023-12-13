@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using Microsoft.JSInterop;
-#if !ENABLE_JSMODULE
-using JSInvoker = Microsoft.JSInterop.IJSRuntime;
-#endif
 
 namespace Toolbelt.Blazor.Gamepad
 {
