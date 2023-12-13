@@ -95,7 +95,9 @@
         try
         {
             this.Gamepads = await GamePadList.GetGamepadsAsync();
-            this.Gamepad = this.Gamepads.LastOrDefault();
+            this.Gamepad = this.Gamepads
+                .Where(gamepad => gamepad.Axes.Count >= 2)
+                .LastOrDefault();
 
             if (this.Gamepad != null)
             {
