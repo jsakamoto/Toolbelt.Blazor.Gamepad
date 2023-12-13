@@ -1,14 +1,18 @@
+using Microsoft.Extensions.Options;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
+using Toolbelt.Blazor.Gamepad;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.Configure<GamepadOptions>(builder.Configuration.GetSection("Gamepad"));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHeadElementHelper();
-builder.Services.AddGamepadList(options =>
+builder.Services.AddGamepadList((services, options) =>
 {
-    //options.DisableClientScriptAutoInjection = true;
+    var config = services.GetRequiredService<IOptions<GamepadOptions>>();
+    options.DisableClientScriptAutoInjection = config.Value.DisableClientScriptAutoInjection;
 });
 
 var app = builder.Build();
