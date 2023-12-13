@@ -8,7 +8,10 @@
     <meta name="description" content="This is the demonstration site of the class library that provides gamepad API access for your Blazor apps." />
     <meta name="keywords" content="blazor,gamepad" />
     <base href="/" />
+    <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="./_content/SampleSite.Components/nupkg-icon.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
     <link rel="stylesheet" href="css/blazor-ui.css" />
     <link rel="stylesheet" href="_content/SampleSite.Components/styles.css" />
 </head>
@@ -30,6 +33,7 @@
 
     <script src="_framework/blazor.webassembly.js"></script>
     <!--<script src="_content/Toolbelt.Blazor.Gamepad/script.min.js"></script>-->
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 
 </html>

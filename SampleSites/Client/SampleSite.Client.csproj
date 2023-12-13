@@ -4,6 +4,7 @@
     <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
@@ -26,8 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--<PackageReference Include="System.Net.Http.Json" Version="5.0.0" />-->
     <ProjectReference Include="..\Components\SampleSite.Components.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
   </ItemGroup>
 
 </Project>
