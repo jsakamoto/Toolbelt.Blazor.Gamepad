@@ -10,15 +10,13 @@ public class GamepadList : IAsyncDisposable
 {
     private readonly IJSRuntime JSRuntime;
 
-    private IJSObjectReference? JSModule;
-
     private JSInvoker? JSInvoker;
 
     private readonly GamepadOptions Options;
 
-    private readonly List<Gamepad> _Gamepads = new List<Gamepad>();
+    private readonly List<Gamepad> _Gamepads = new();
 
-    private readonly SemaphoreSlim Syncer = new SemaphoreSlim(1, 1);
+    private readonly SemaphoreSlim Syncer = new(1, 1);
 
     /// <summary>
     /// Initialize a new instance of the GamepadList class.
@@ -63,20 +61,22 @@ public class GamepadList : IAsyncDisposable
         {
             if (this.JSInvoker != null) return this.JSInvoker;
 
-            var version = this.GetVersionText();
             if (!this.Options.DisableClientScriptAutoInjection)
             {
-                var scriptPath = $"./_content/Toolbelt.Blazor.Gamepad/script.module.min.js?v={version}";
-                this.JSModule = await this.JSRuntime.InvokeAsync<IJSObjectReference>("import", scriptPath);
-                this.JSInvoker = new JSInvoker(this.JSRuntime, this.JSModule);
+                var isOnLine = await this.JSRuntime.InvokeAsync<bool>("Toolbelt.Blazor.getProperty", "navigator.onLine");
+                var scriptPath = $"./_content/Toolbelt.Blazor.Gamepad/script.module.min.js";
+                if (isOnLine) scriptPath += $"?v={this.GetVersionText()}";
+
+                var module = await this.JSRuntime.InvokeAsync<IJSObjectReference>("import", scriptPath);
+                this.JSInvoker = new JSInvoker(this.JSRuntime, module);
             }
             else
             {
-                try { await this.JSRuntime.InvokeVoidAsync("Toolbelt.Blazor.Gamepad.ready"); } catch { }
+                await this.JSRuntime.InvokeVoidAsync("Toolbelt.Blazor.getProperty", "Toolbelt.Blazor.SpeechRecognition.ready");
                 this.JSInvoker = new JSInvoker(this.JSRuntime, null);
             }
         }
-        catch (Exception) { }
+        catch (InvalidOperationException) { }
         finally { this.Syncer.Release(); }
 
         return this.JSInvoker;
@@ -93,6 +93,6 @@ public class GamepadList : IAsyncDisposable
 
     public async ValueTask DisposeAsync()
     {
-        if (this.JSModule != null) await this.JSModule.DisposeAsync();
+        if (this.JSInvoker != null) await this.JSInvoker.DisposeAsync();
     }
 }

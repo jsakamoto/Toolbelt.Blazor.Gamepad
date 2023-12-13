@@ -2,7 +2,7 @@
 
 namespace Toolbelt.Blazor.Gamepad;
 
-internal class JSInvoker
+internal class JSInvoker : IAsyncDisposable
 {
     private readonly IJSRuntime JSRuntime;
 
@@ -20,5 +20,13 @@ internal class JSInvoker
             return this.JSModule.InvokeAsync<T>(identifier, args);
         else
             return this.JSRuntime.InvokeAsync<T>(identifier, args);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (this.JSModule != null)
+        {
+            try { await this.JSModule.DisposeAsync(); } catch (JSDisconnectedException) { }
+        }
     }
 }
