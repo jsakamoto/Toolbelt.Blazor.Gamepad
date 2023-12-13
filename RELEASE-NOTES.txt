@@ -1,3 +1,7 @@
+v.9.0.0
+- Breaking change: Drop support for .NET 5 or before.
+- Improve: Available for IL trimming.
+
 v.8.0.0
 - Improve: load the helper JavaScript by Blazor JavaScript isolation feature (ES2015 module system) instead of using "eval".
 - Improve: Add a new configuration option to disable automatic script injection.
