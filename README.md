@@ -10,13 +10,14 @@ This is a class library that provides gamepad API access for your Blazor apps.
 
 ## Requirements
 
-"Blazor Gamepad" ver.7.x or later supports Blazor versions below.
+"Blazor Gamepad" ver.9.x or later supports Blazor versions below.
 
-- v.3.1 (including previews and release candidates)
-- v.3.2 (including previews and release candidates)
-- v.5.0 (including previews and release candidates)
+- v.6.0, 7.0, 8.0 or later
 
-Both "Blazor WebAssembly App" (a.k.a."Client-side Blazor") and "Blazor Server App" (a.k.a."Server-side Blazor") are supoorted.
+> **Note:**  
+> If you are using Blazor version 5.0 or earlier, please use "Blazor Gamepad" ver.8.x or earlier.
+
+Both "Blazor WebAssembly App" and "Blazor Server App" are supoorted.
 
 ## How to install and use?
 
@@ -30,34 +31,15 @@ Both "Blazor WebAssembly App" (a.k.a."Client-side Blazor") and "Blazor Server Ap
 
 **Step.2** Register "GamepadList" service into the DI container.
 
-If the project is a Blazor Server App or a Blazor WebAssembly App ver.3.1 Preview 4 or earlyer, add the code into the `ConfigureService` method in the `Startup` class of your Blazor application.
-
-```csharp
-using Toolbelt.Blazor.Extensions.DependencyInjection; // <- Add this line, and...
-...
-public class Startup
-{
-  public void ConfigureServices(IServiceCollection services)
-  {
-    services.AddGamepadList(); // <- Add this line.
-    ...
-```
-
-If the project is a Blazor WebAssembly App ver.3.2 Preview 1 or later (includes .NET 5), add the code into the `Main` method in the `Program` class of your Blazor application.
-
 ```csharp
 // Program.cs
-
-using Toolbelt.Blazor.Extensions.DependencyInjection; // <- Add this, and...
 ...
-public class Program
-{
-  public static async Task Main(string[] args)
-  {
-    var builder = WebAssemblyHostBuilder.CreateDefault(args);
-    ...
-    builder.Services.AddGamepadList(); // <- Add this line.
-    ...
+using Toolbelt.Blazor.Extensions.DependencyInjection; // <- Add this line, and...
+...
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+...
+builder.Services.AddGamepadList(); // <- Add this line.
+...
 ```
 
 ### 2. Usage in your Blazor component (.razor)
@@ -87,14 +69,14 @@ Sample .razor code is here:
 @if (this.Gamepad != null) {
   <p>Axes</p>
   <ul>
-    @foreach (var ax in this.Gamepad.Axes) {
+    @foreach (var ax in _gamepad.Axes) {
       <li>@ax.ToString("#,0.0")</li>
     }
   </ul>
 
   <p>Buttons</p>
   <ul>
-    @foreach (var button in this.Gamepad.Buttons) {
+    @foreach (var button in _gamepad.Buttons) {
       <li>@button.Pressed (@button.Value)</li>
     }
   </ul>
@@ -102,24 +84,24 @@ Sample .razor code is here:
 
 @code {
 
-  Gamepad Gamepad;
+  private Gamepad? _gamepad;
 
-  Timer Timer = new Timer(200) { Enabled = true };
+  private readonly System.Timers.Timer _timer = new Timer(200) { Enabled = true };
 
   protected override void OnInitialized() {
-    Timer.Elapsed += Timer_Elapsed;
+    _timer.Elapsed += timer_Elapsed;
   }
 
-  async void Timer_Elapsed(object sender, EventArgs args) {
+  private async void timer_Elapsed(object sender, EventArgs args) {
     var gamepads = await GamePadList.GetGamepadsAsync();
-    this.Gamepad = gamepads.FirstOrDefault();
-    if (this.Gamepads.Any()) 
+    _gamepad = gamepads.FirstOrDefault();
+    if (_gamepad != null) 
       await this.InvokeAsync(() => this.StateHasChanged());
   }
 
   public void Dispose() {
-    Timer.Elapsed -= Timer_Elapsed;
-    Timer.Dispose();
+    _timer.Elapsed -= timer_Elapsed;
+    _timer.Dispose();
   }
 }
 ```
