@@ -23,11 +23,11 @@ public static class GamepadExtensions
     /// </summary>
     /// <param name="services">The Microsoft.Extensions.DependencyInjection.IServiceCollection to add the service to.</param>
     /// <param name="configure"></param>
-    public static IServiceCollection AddGamepadList(this IServiceCollection services, Action<GamepadOptions> configure)
+    public static IServiceCollection AddGamepadList(this IServiceCollection services, Action<GamepadOptions>? configure)
     {
         var options = new GamepadOptions();
         configure?.Invoke(options);
-        services.AddScoped(serviceProvider => new GamepadList(serviceProvider.GetService<IJSRuntime>(), options));
+        services.AddScoped(serviceProvider => new GamepadList(serviceProvider.GetRequiredService<IJSRuntime>(), options));
         return services;
     }
 }

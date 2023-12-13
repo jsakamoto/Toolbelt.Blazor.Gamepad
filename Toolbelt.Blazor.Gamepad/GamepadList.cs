@@ -10,7 +10,9 @@ public class GamepadList : IAsyncDisposable
 {
     private readonly IJSRuntime JSRuntime;
 
-    private JSInvoker JSInvoker;
+    private IJSObjectReference? JSModule;
+
+    private JSInvoker? JSInvoker;
 
     private readonly GamepadOptions Options;
 
@@ -52,7 +54,7 @@ public class GamepadList : IAsyncDisposable
         return this._Gamepads;
     }
 
-    private async ValueTask<JSInvoker> GetJSInvokerAsync()
+    private async ValueTask<JSInvoker?> GetJSInvokerAsync()
     {
         if (this.JSInvoker != null) return this.JSInvoker;
 
@@ -85,11 +87,9 @@ public class GamepadList : IAsyncDisposable
         var assembly = this.GetType().Assembly;
         var version = assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-            .InformationalVersion ?? assembly.GetName().Version.ToString();
+            .InformationalVersion ?? assembly.GetName().Version?.ToString() ?? "0.0.0";
         return version;
     }
-
-    private IJSObjectReference JSModule;
 
     public async ValueTask DisposeAsync()
     {

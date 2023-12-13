@@ -43,7 +43,7 @@ public class Gamepad
 
     private ValueTask<object> LastRefreshTask = default;
 
-    private DotNetObjectReference<Gamepad> _ObjectRefOfThis;
+    private DotNetObjectReference<Gamepad>? _ObjectRefOfThis;
 
     internal Gamepad(JSInvoker jsInvoker, string id, int index, bool connected)
     {

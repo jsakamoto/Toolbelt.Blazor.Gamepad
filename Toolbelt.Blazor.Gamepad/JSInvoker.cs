@@ -1,5 +1,4 @@
-﻿#nullable enable
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
 
 namespace Toolbelt.Blazor.Gamepad;
 
