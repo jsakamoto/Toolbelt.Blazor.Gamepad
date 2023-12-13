@@ -2,33 +2,32 @@
 using Microsoft.JSInterop;
 using Toolbelt.Blazor.Gamepad;
 
-namespace Toolbelt.Blazor.Extensions.DependencyInjection
+namespace Toolbelt.Blazor.Extensions.DependencyInjection;
+
+/// <summary>
+/// Extension methods for adding GamepadList service.
+/// </summary>
+public static class GamepadExtensions
 {
     /// <summary>
-    /// Extension methods for adding GamepadList service.
+    ///  Adds a gamepad list service to the specified Microsoft.Extensions.DependencyInjection.IServiceCollection.
     /// </summary>
-    public static class GamepadExtensions
+    /// <param name="services">The Microsoft.Extensions.DependencyInjection.IServiceCollection to add the service to.</param>
+    public static IServiceCollection AddGamepadList(this IServiceCollection services)
     {
-        /// <summary>
-        ///  Adds a gamepad list service to the specified Microsoft.Extensions.DependencyInjection.IServiceCollection.
-        /// </summary>
-        /// <param name="services">The Microsoft.Extensions.DependencyInjection.IServiceCollection to add the service to.</param>
-        public static IServiceCollection AddGamepadList(this IServiceCollection services)
-        {
-            return services.AddGamepadList(configure: null);
-        }
+        return services.AddGamepadList(configure: null);
+    }
 
-        /// <summary>
-        ///  Adds a gamepad list service to the specified Microsoft.Extensions.DependencyInjection.IServiceCollection.
-        /// </summary>
-        /// <param name="services">The Microsoft.Extensions.DependencyInjection.IServiceCollection to add the service to.</param>
-        /// <param name="configure"></param>
-        public static IServiceCollection AddGamepadList(this IServiceCollection services, Action<GamepadOptions> configure)
-        {
-            var options = new GamepadOptions();
-            configure?.Invoke(options);
-            services.AddScoped(serviceProvider => new GamepadList(serviceProvider.GetService<IJSRuntime>(), options));
-            return services;
-        }
+    /// <summary>
+    ///  Adds a gamepad list service to the specified Microsoft.Extensions.DependencyInjection.IServiceCollection.
+    /// </summary>
+    /// <param name="services">The Microsoft.Extensions.DependencyInjection.IServiceCollection to add the service to.</param>
+    /// <param name="configure"></param>
+    public static IServiceCollection AddGamepadList(this IServiceCollection services, Action<GamepadOptions> configure)
+    {
+        var options = new GamepadOptions();
+        configure?.Invoke(options);
+        services.AddScoped(serviceProvider => new GamepadList(serviceProvider.GetService<IJSRuntime>(), options));
+        return services;
     }
 }
