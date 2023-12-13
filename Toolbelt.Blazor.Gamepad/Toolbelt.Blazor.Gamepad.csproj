@@ -6,7 +6,6 @@
     <IsPackable>true</IsPackable>
     <ImplicitUsings>enable</ImplicitUsings>
     <WarningsAsErrors>$(WarningsAsErrors);nullable</WarningsAsErrors>
-    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
@@ -42,7 +41,7 @@
 
   <ItemGroup>
     <PackageReference Include="Toolbelt.Blazor.GetProperty.Script" Version="1.2.0" />
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.7.4">
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.3.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -58,7 +57,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <TypeScriptTarget>ES2015</TypeScriptTarget>
+    <TypeScriptTarget>ESNext</TypeScriptTarget>
     <TypeScriptModuleKind>ESNext</TypeScriptModuleKind>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
