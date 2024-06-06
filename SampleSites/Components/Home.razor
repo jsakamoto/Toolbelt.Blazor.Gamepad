@@ -1,62 +1,78 @@
 ﻿@page "/"
 @using Toolbelt.Blazor.Gamepad
 @using static System.Math
-@inject GamepadList GamePadList
+
 @implements IDisposable
+@inject GamepadList GamePadList
+
 <Title>Home | Blazor Gamepad</Title>
 
-<div class="left-pane">
+<Layout>
 
-    <p>Game Pad List (@Gamepads.Count())</p>
-    @if (!Gamepads.Any())
-    {
-        <p class="connect-message">
-            Connect your gamepad device.
-        </p>
-    }
-    <ul>
-        @foreach (var gamePad in Gamepads)
-        {
-            <li @key="@gamePad.Id">@gamePad.Index - [@gamePad.Id]</li>
-        }
-    </ul>
+    <Header>
+        <span class="icon">📣</span>
+        <a href="./about">About</a>
+    </Header>
 
-    @if (this.Gamepad != null)
-    {
-        <p>Axes</p>
-        <ul>
-            @foreach (var ax in Gamepad.Axes)
+    <Main>
+        <div class="left-pane">
+
+            <p>Game Pad List (@Gamepads.Count())</p>
+            @if (!Gamepads.Any())
             {
-                <li>@ax.ToString("#,0.0")</li>
+                <p class="connect-message">
+                    Connect your gamepad device.
+                </p>
             }
-        </ul>
+            <ul>
+                @foreach (var gamePad in Gamepads)
+                {
+                    <li @key="@gamePad.Id">@gamePad.Index - [@gamePad.Id]</li>
+                }
+            </ul>
 
-        <p>Buttons</p>
-        <ul>
-            @foreach (var button in Gamepad.Buttons)
+            @if (this.Gamepad != null)
             {
-                <li>@button.Pressed (@button.Value)</li>
+                <p>Axes</p>
+                <ul>
+                    @foreach (var ax in Gamepad.Axes)
+                    {
+                        <li>@ax.ToString("#,0.0")</li>
+                    }
+                </ul>
+
+                <p>Buttons</p>
+                <ul>
+                    @foreach (var button in Gamepad.Buttons)
+                    {
+                        <li>@button.Pressed (@button.Value)</li>
+                    }
+                </ul>
             }
-        </ul>
-    }
-</div>
+        </div>
 
-<div class="right-pane">
-    <div class="space-box">
+        <div class="right-pane">
+            <div class="space-box">
 
-        <div class="space-ship" style="left:@(SpaceShipX)px;top:@(SpaceShipY)px;">🚀</div>
+                <div class="space-ship" style="left:@(SpaceShipX)px;top:@(SpaceShipY)px;">🚀</div>
 
-        @foreach (var bullet in this.Bullets)
-        {
-            <div @key="@bullet.Key" class="bullet" style="left:@(bullet.FiredX)px; top:@(bullet.FiredY)px;"></div>
-        }
-    </div>
-</div>
+                @foreach (var bullet in this.Bullets)
+                {
+                    <div @key="@bullet.Key" class="bullet" style="left:@(bullet.FiredX)px; top:@(bullet.FiredY)px;"></div>
+                }
+            </div>
+        </div>
+    </Main>
+
+    <Footer>
+        <div>|</div>
+        <div>@_timeStamp</div>
+    </Footer>
+
+</Layout>
 
 @code
 {
-    [CascadingParameter] Layout.HeaderLinkType? headerLink { get; set; }
-
     private IEnumerable<Gamepad> Gamepads = new Gamepad[0];
 
     private Gamepad? Gamepad;
@@ -83,10 +99,10 @@
 
     readonly List<Bullet> Bullets = new List<Bullet>();
 
+    private string _timeStamp = DateTime.Now.ToString();
+
     protected override void OnInitialized()
     {
-        headerLink?.Update("about", "📣", "About");
-
         Timer.Elapsed += Timer_Elapsed;
     }
 
@@ -129,6 +145,13 @@
         {
             System.Diagnostics.Debug.WriteLine(e.ToString());
             throw;
+        }
+
+        var newTimestamp = DateTime.Now.ToString();
+        if (_timeStamp != newTimestamp)
+        {
+            _timeStamp = newTimestamp;
+            await this.InvokeAsync(StateHasChanged);
         }
     }
 
