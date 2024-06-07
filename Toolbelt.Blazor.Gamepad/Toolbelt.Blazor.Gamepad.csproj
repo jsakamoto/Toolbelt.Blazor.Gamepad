@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <IsPackable>true</IsPackable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -11,9 +11,9 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
-    <Copyright>Copyright © 2018-2023 J.Sakamoto, Mozilla Public License 2.0</Copyright>
+    <Copyright>Copyright © 2018-2024 J.Sakamoto, Mozilla Public License 2.0</Copyright>
     <Authors>J.Sakamoto</Authors>
-    <Version>9.0.0</Version>
+    <Version>9.0.1-preview.1</Version>
     <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/jsakamoto/Toolbelt.Blazor.Gamepad/</PackageProjectUrl>
@@ -39,6 +39,11 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.0-preview.4.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0-preview.4.*" />
   </ItemGroup>
 
   <ItemGroup>

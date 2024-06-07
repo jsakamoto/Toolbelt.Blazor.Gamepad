@@ -2,7 +2,7 @@
 <linker>
   <assembly fullname="Toolbelt.Blazor.Gamepad">
     <type fullname="Toolbelt.Blazor.Gamepad.GamepadList">
-      <method signature="System.String GetVersionText()" body="stub" value="9.0.0" />
+      <method signature="System.String GetVersionText()" body="stub" value="9.0.1-preview.1" />
     </type>
   </assembly>
 </linker>
