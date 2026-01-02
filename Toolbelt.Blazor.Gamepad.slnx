@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/GitHub Actions/">
+    <File Path=".github/workflows/gh-pages.yml" />
+  </Folder>
+  <Folder Name="/README/">
+    <File Path="README.md" />
+    <File Path="RELEASE-NOTES.txt" />
+  </Folder>
+  <Folder Name="/SampleSites/">
+    <Project Path="SampleSites/Client/SampleSite.Client.csproj" />
+    <Project Path="SampleSites/Components/SampleSite.Components.csproj" />
+    <Project Path="SampleSites/Host/SampleSite.Host.csproj" />
+    <Project Path="SampleSites/Server/SampleSite.Server.csproj" />
+    <Project Path="SampleSites/Web.Client/SampleSite.Web.Client.csproj" />
+    <Project Path="SampleSites/Web/SampleSite.Web.csproj" />
+  </Folder>
+  <Project Path="Toolbelt.Blazor.Gamepad/Toolbelt.Blazor.Gamepad.csproj" />
+</Solution>

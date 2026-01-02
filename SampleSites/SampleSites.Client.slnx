@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="Client/SampleSite.Client.csproj" />
+  <Project Path="Components/SampleSite.Components.csproj" />
+  <Project Path="Host/SampleSite.Host.csproj" />
+  <Project Path="Server/SampleSite.Server.csproj" />
+  <Project Path="Web.Client/SampleSite.Web.Client.csproj" />
+  <Project Path="Web/SampleSite.Web.csproj" />
+</Solution>
