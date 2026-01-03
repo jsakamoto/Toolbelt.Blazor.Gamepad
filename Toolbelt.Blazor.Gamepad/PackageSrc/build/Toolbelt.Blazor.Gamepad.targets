@@ -1,0 +1,11 @@
+<Project>
+
+  <PropertyGroup>
+    <ToolbeltBlazorGamepadJavaScriptCacheBusting Condition=" '$(ToolbeltBlazorGamepadJavaScriptCacheBusting)' == '' ">true</ToolbeltBlazorGamepadJavaScriptCacheBusting>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(RuntimeIdentifier)' == 'browser-wasm' AND '$(ToolbeltBlazorGamepadJavaScriptCacheBusting)' != '' ">
+    <RuntimeHostConfigurationOption Include="Toolbelt.Blazor.Gamepad.JavaScriptCacheBusting" Value="$(ToolbeltBlazorGamepadJavaScriptCacheBusting)" Trim="true" />
+  </ItemGroup>
+
+</Project>

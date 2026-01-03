@@ -1,4 +1,4 @@
-﻿@page "/"
+@page "/"
 @using Toolbelt.Blazor.Gamepad
 @using static System.Math
 
@@ -101,9 +101,12 @@
 
     private string _timeStamp = DateTime.Now.ToString();
 
-    protected override void OnInitialized()
+    protected override void OnAfterRender(bool firstRender)
     {
-        Timer.Elapsed += Timer_Elapsed;
+        if (firstRender)
+        {
+            Timer.Elapsed += Timer_Elapsed;
+        }
     }
 
     private async void Timer_Elapsed(object? sender, EventArgs args)

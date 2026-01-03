@@ -1,14 +1,10 @@
-"use strict";
-var Toolbelt;
-(function (Toolbelt) {
-    var Blazor;
-    (function (Blazor) {
-        var Gamepad;
-        (function (Gamepad) {
-            const searchParam = document.currentScript?.getAttribute('src')?.split('?')[1] || '';
-            Gamepad.ready = import('./script.module.min.js?' + searchParam).then(m => {
-                Object.assign(Gamepad, m.Toolbelt.Blazor.Gamepad);
-            });
-        })(Gamepad = Blazor.Gamepad || (Blazor.Gamepad = {}));
-    })(Blazor = Toolbelt.Blazor || (Toolbelt.Blazor = {}));
-})(Toolbelt || (Toolbelt = {}));
+const _getGamepads = () => navigator.getGamepads();
+export const getGamepads = () => {
+    return _getGamepads()
+        .filter(g => g !== null)
+        .map(g => [g.id, g.index.toString()]);
+};
+export const refresh = (gamepadObjRef, id, index) => {
+    const gamepad = _getGamepads().filter(gamepad => gamepad?.id === id && gamepad.index === index)[0];
+    gamepadObjRef.invokeMethodAsync("UpdateStatus", gamepad?.connected ?? false, gamepad?.axes ?? [], gamepad?.buttons.map(b => b.pressed) ?? [], gamepad?.buttons.map(b => b.value) ?? []);
+};

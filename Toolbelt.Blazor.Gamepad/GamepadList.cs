@@ -1,4 +1,3 @@
-﻿using System.Reflection;
 using Microsoft.JSInterop;
 
 namespace Toolbelt.Blazor.Gamepad;
@@ -10,9 +9,7 @@ public class GamepadList : IAsyncDisposable
 {
     private readonly IJSRuntime JSRuntime;
 
-    private JSInvoker? JSInvoker;
-
-    private readonly GamepadOptions Options;
+    private IJSObjectReference? _JSModule;
 
     private readonly List<Gamepad> _Gamepads = new();
 
@@ -21,10 +18,9 @@ public class GamepadList : IAsyncDisposable
     /// <summary>
     /// Initialize a new instance of the GamepadList class.
     /// </summary>
-    internal GamepadList(IJSRuntime jSRuntime, GamepadOptions options)
+    internal GamepadList(IJSRuntime jSRuntime)
     {
         this.JSRuntime = jSRuntime;
-        this.Options = options;
     }
 
     /// <summary>
@@ -32,16 +28,16 @@ public class GamepadList : IAsyncDisposable
     /// </summary>
     public async ValueTask<IReadOnlyList<Gamepad>> GetGamepadsAsync()
     {
-        var jsInvoker = await this.GetJSInvokerAsync();
-        if (jsInvoker == null) return this._Gamepads;
+        var jsmodule = await this.GetJSModuleAsync();
+        if (jsmodule == null) return this._Gamepads;
 
-        var latestGamePads = await jsInvoker.InvokeAsync<string[][]>("Toolbelt.Blazor.Gamepad.getGamepads");
+        var latestGamePads = await jsmodule.InvokeAsync<string[][]>("getGamepads");
         var toAddPads = latestGamePads.Where(p1 => !this._Gamepads.Any(p2 => p1[0] == p2.Id && p1[1] == p2.Index.ToString())).ToArray();
         var toRemovePads = this._Gamepads.Where(p1 => !latestGamePads.Any(p2 => p1.Id == p2[0] && p1.Index.ToString() == p2[1])).ToArray();
 
         foreach (var item in toAddPads)
         {
-            this._Gamepads.Add(new Gamepad(jsInvoker, item[0], int.Parse(item[1]), true));
+            this._Gamepads.Add(new Gamepad(jsmodule, item[0], int.Parse(item[1]), true));
         }
         foreach (var pad in toRemovePads)
         {
@@ -52,47 +48,45 @@ public class GamepadList : IAsyncDisposable
         return this._Gamepads;
     }
 
-    private async ValueTask<JSInvoker?> GetJSInvokerAsync()
+    private static bool CacheBustingEnabled() => Environment.GetEnvironmentVariable("TOOLBELT_BLAZOR_GAMEPAD_JSCACHEBUSTING") != "0";
+
+    private async ValueTask<IJSObjectReference?> GetJSModuleAsync()
     {
-        if (this.JSInvoker != null) return this.JSInvoker;
+        if (this._JSModule is not null) return this._JSModule;
 
         await this.Syncer.WaitAsync();
         try
         {
-            if (this.JSInvoker != null) return this.JSInvoker;
-
-            if (!this.Options.DisableClientScriptAutoInjection)
+            if (this._JSModule is null)
             {
+#if NET10_0_OR_GREATER
+                var cacheBustingQueryAsync = CacheBustingEnabled() ?
+                    this.JSRuntime.GetValueAsync<bool>("navigator.onLine").AsTask().ContinueWith(static task => task.Result ? "?v=" + VersionInfo.VersionText : "") :
+                    Task.FromResult("");
+
+                this._JSModule = await cacheBustingQueryAsync
+                    .ContinueWith(task => this.JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Toolbelt.Blazor.Gamepad/script.min.js" + task.Result).AsTask())
+                    .Unwrap();
+#else
                 var isOnLine = await this.JSRuntime.InvokeAsync<bool>("Toolbelt.Blazor.getProperty", "navigator.onLine");
-                var scriptPath = $"./_content/Toolbelt.Blazor.Gamepad/script.module.min.js";
-                if (isOnLine) scriptPath += $"?v={this.GetVersionText()}";
+                var scriptPath = $"./_content/Toolbelt.Blazor.Gamepad/script.min.js";
+                if (isOnLine) scriptPath += $"?v={VersionInfo.VersionText}";
 
-                var module = await this.JSRuntime.InvokeAsync<IJSObjectReference>("import", scriptPath);
-                this.JSInvoker = new JSInvoker(this.JSRuntime, module);
-            }
-            else
-            {
-                await this.JSRuntime.InvokeVoidAsync("Toolbelt.Blazor.getProperty", "Toolbelt.Blazor.SpeechRecognition.ready");
-                this.JSInvoker = new JSInvoker(this.JSRuntime, null);
+                this._JSModule = await this.JSRuntime.InvokeAsync<IJSObjectReference>("import", scriptPath);
+#endif
             }
         }
-        catch (InvalidOperationException) { }
         finally { this.Syncer.Release(); }
 
-        return this.JSInvoker;
-    }
-
-    private string GetVersionText()
-    {
-        var assembly = this.GetType().Assembly;
-        var version = assembly
-            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-            .InformationalVersion ?? assembly.GetName().Version?.ToString() ?? "0.0.0";
-        return version;
+        return this._JSModule;
     }
 
     public async ValueTask DisposeAsync()
     {
-        if (this.JSInvoker != null) await this.JSInvoker.DisposeAsync();
+        if (this._JSModule is not null)
+        {
+            try { await this._JSModule.DisposeAsync(); }
+            catch (JSDisconnectedException) { }
+        }
     }
 }

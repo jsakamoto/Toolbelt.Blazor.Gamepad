@@ -1,8 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <linker>
   <assembly fullname="Toolbelt.Blazor.Gamepad">
-    <type fullname="Toolbelt.Blazor.Gamepad.GamepadList">
-      <method signature="System.String GetVersionText()" body="stub" value="9.0.1-preview.1" />
+    <type feature="Toolbelt.Blazor.Gamepad.JavaScriptCacheBusting" featurevalue="true" fullname="Toolbelt.Blazor.Gamepad.GamepadList">
+      <method signature="System.Boolean CacheBustingEnabled()" body="stub" value="true" />
+    </type>
+    <type feature="Toolbelt.Blazor.Gamepad.JavaScriptCacheBusting" featurevalue="false" fullname="Toolbelt.Blazor.Gamepad.GamepadList">
+      <method signature="System.Boolean CacheBustingEnabled()" body="stub" value="false" />
     </type>
   </assembly>
 </linker>

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using SampleSite.Components;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
@@ -15,8 +15,5 @@ static void ConfigureServices(IServiceCollection services, IWebAssemblyHostEnvir
 {
     services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(hostEnv.BaseAddress) });
     services.AddHeadElementHelper();
-    services.AddGamepadList(options =>
-    {
-        //options.DisableClientScriptAutoInjection = true;
-    });
+    services.AddGamepadList();
 }

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using Microsoft.JSInterop;
 
 namespace Toolbelt.Blazor.Gamepad;
@@ -8,7 +8,7 @@ namespace Toolbelt.Blazor.Gamepad;
 /// </summary>
 public class Gamepad
 {
-    private readonly JSInvoker JSInvoker;
+    private readonly IJSObjectReference _JSModule;
 
     /// <summary>
     /// A string containing identifying information about the controller.
@@ -27,7 +27,7 @@ public class Gamepad
     /// </summary>
     public bool Connected => this.Refresh()._Connected;
 
-    private double[] _Axes = new double[0];
+    private double[] _Axes = [];
 
     /// <summary>
     /// A list representing the controls with axes present on the device (e.g. analog thumb sticks).
@@ -45,9 +45,9 @@ public class Gamepad
 
     private DotNetObjectReference<Gamepad>? _ObjectRefOfThis;
 
-    internal Gamepad(JSInvoker jsInvoker, string id, int index, bool connected)
+    internal Gamepad(IJSObjectReference jsmodule, string id, int index, bool connected)
     {
-        this.JSInvoker = jsInvoker;
+        this._JSModule = jsmodule;
         this.Id = id;
         this.Index = index;
         this._Connected = connected;
@@ -58,7 +58,7 @@ public class Gamepad
         if (this.LastRefreshTask.IsCompleted)
         {
             if (this._ObjectRefOfThis == null) this._ObjectRefOfThis = DotNetObjectReference.Create(this);
-            this.LastRefreshTask = this.JSInvoker.InvokeAsync<object>("Toolbelt.Blazor.Gamepad.refresh", this._ObjectRefOfThis, this.Id, this.Index);
+            this.LastRefreshTask = this._JSModule.InvokeAsync<object>("refresh", this._ObjectRefOfThis, this.Id, this.Index);
         }
         return this;
     }
